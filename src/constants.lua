@@ -1,0 +1,4 @@
+GAME_TITLE = "ROGUE"
+
+GAME_W = 256
+GAME_H = 224
