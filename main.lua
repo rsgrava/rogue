@@ -7,12 +7,18 @@ function love.load()
     local window_w, window_h = love.window.getDesktopDimensions()
     push:setupScreen(GAME_W, GAME_H, window_w, window_h,
                      {fullscreen = true, resizable = true, vsync = true})
+
+    love.keyboard.pressed = {}
+    love.keyboard.released = {}
+
     Gamestate.switch(mainMenuState)
 end
 
 function love.update()
     love.window.setTitle(GAME_TITLE.." - "..love.timer.getFPS().." fps")
     Gamestate.current():update(dt)
+    love.keyboard.pressed = {}
+    love.keyboard.released = {}
 end
 
 function love.draw()
@@ -23,4 +29,20 @@ end
 
 function love.resize(w, h)
     push:resize(w, h)
+end
+
+function love.keypressed(key)
+    love.keyboard.pressed[key] = true
+end
+
+function love.keyreleased(key)
+    love.keyboard.released[key] = true
+end
+
+function love.keyboard.isPressed(key)
+    return love.keyboard.pressed[key]
+end
+
+function love.keyboard.isReleased(key)
+    return love.keyboard.released[key]
 end
