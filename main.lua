@@ -11,6 +11,7 @@ function love.load()
 end
 
 function love.update()
+    love.window.setTitle(GAME_TITLE.." - "..love.timer.getFPS().." fps")
     Gamestate.current():update(dt)
 end
 
