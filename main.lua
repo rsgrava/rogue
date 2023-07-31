@@ -3,6 +3,8 @@ setmetatable(_G, {
 })
 push = require("libs/push")
 Gamestate = require("libs/gamestate")
+require("libs/slam")
+
 require("src/constants")
 require("src/states/main")
 
