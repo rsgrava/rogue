@@ -12,7 +12,7 @@ end
 
 function Drawable:draw()
     local texture = self.texture1
-    if GlobalAnimation.frame == 2 then
+    if GlobalAnimation.frame == 2 and self.texture2 ~= nil then
         texture = self.texture2
     end
 
