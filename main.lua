@@ -18,7 +18,7 @@ function love.load()
     Gamestate.switch(mainState)
 end
 
-function love.update()
+function love.update(dt)
     love.window.setTitle(GAME_TITLE.." - "..love.timer.getFPS().." fps")
     Gamestate.current():update(dt)
     love.keyboard.pressed = {}
