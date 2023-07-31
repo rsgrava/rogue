@@ -13,6 +13,8 @@ function love.load()
     love.keyboard.pressed = {}
     love.keyboard.released = {}
 
+    math.randomseed(os.time())
+
     Gamestate.switch(mainMenuState)
 end
 
