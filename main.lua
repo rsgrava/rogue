@@ -1,3 +1,6 @@
+setmetatable(_G, {
+  __index = require("libs/cargo").init('/')
+})
 push = require("libs/push")
 Gamestate = require("libs/gamestate")
 require("src/constants")
