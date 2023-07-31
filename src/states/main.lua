@@ -1,4 +1,5 @@
 Camera = require("libs/camera")
+require("src/core/global_animation")
 
 mainState = {}
 
@@ -16,6 +17,7 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
+    GlobalAnimation.update(dt)
 end
 
 function mainState:draw()
