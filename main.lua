@@ -1,7 +1,7 @@
 push = require("libs/push")
 Gamestate = require("libs/gamestate")
 require("src/constants")
-require("src/states/main_menu")
+require("src/states/main")
 
 function love.load()
     local window_w, window_h = love.window.getDesktopDimensions()
@@ -15,7 +15,7 @@ function love.load()
 
     math.randomseed(os.time())
 
-    Gamestate.switch(mainMenuState)
+    Gamestate.switch(mainState)
 end
 
 function love.update()
