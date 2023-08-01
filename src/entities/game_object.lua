@@ -6,9 +6,9 @@ GameObject = Class{
 }
 
 function GameObject:init(defs)
-    Drawable.init(self, defs.texture1, defs.texture2, defs.tileX, defs.tileY)
-    self.tileX = 0
-    self.tileY = 0
+    Drawable.init(self, defs.texture1, defs.texture2, defs.quadX, defs.quadY)
+    self.tileX = defs.tileX
+    self.tileY = defs.tileY
 end
 
 function GameObject:update(dt)
