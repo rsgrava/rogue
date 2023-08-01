@@ -23,3 +23,11 @@ function Map:draw()
         tile:draw(x, y)
     end
 end
+
+function Map:canWalk(tileX, tileY)
+    return self.tiles[tileX + self.width * tileY].canWalk
+end
+
+function Map:canFly(tileX, tileY)
+    return self.tiles[tileX + self.width * tileY].canFly
+end
