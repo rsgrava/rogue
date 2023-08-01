@@ -13,7 +13,7 @@ function mainState:enter()
     self.map = Map()
     self.character = GameObject({
         texture1 = assets.graphics.Characters.Player0,
-        texture2 = nil,
+        texture2 = assets.graphics.Characters.Player1,
         quadX = 0,
         quadY = 0,
         tileX = 0,
@@ -28,6 +28,15 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
+    if love.keyboard.isPressed("up") then
+        self.character.tileY = self.character.tileY - 1
+    elseif love.keyboard.isPressed("down") then
+        self.character.tileY = self.character.tileY + 1
+    elseif love.keyboard.isPressed("left") then
+        self.character.tileX = self.character.tileX - 1
+    elseif love.keyboard.isPressed("right") then
+        self.character.tileX = self.character.tileX + 1
+    end
     self.character:update(dt)
     GlobalAnimation.update(dt)
 end
