@@ -1,5 +1,6 @@
 Camera = require("libs/camera")
 require("src/core/global_animation")
+require("src/map")
 require("src/entities/game_object")
 
 mainState = {}
@@ -9,6 +10,7 @@ end
 
 function mainState:enter()
     self.camera = Camera()
+    self.map = Map()
     self.character = GameObject({
         texture1 = assets.graphics.Characters.Player0,
         texture2 = nil,
@@ -32,6 +34,7 @@ end
 
 function mainState:draw()
     self.camera:attach()
-        self.character:draw(dt)
+        self.map:draw()
+        self.character:draw()
     self.camera:detach()
 end
