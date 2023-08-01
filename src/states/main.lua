@@ -16,8 +16,8 @@ function mainState:enter()
         texture2 = assets.graphics.Characters.Player1,
         quadX = 0,
         quadY = 0,
-        tileX = 0,
-        tileY = 0,
+        tileX = 1,
+        tileY = 1,
     })
 end
 
@@ -29,13 +29,25 @@ end
 
 function mainState:update(dt)
     if love.keyboard.isPressed("up") then
-        self.character.tileY = self.character.tileY - 1
+        local newY = self.character.tileY - 1
+        if self.map:canWalk(self.character.tileX, newY) then
+            self.character.tileY = newY
+        end
     elseif love.keyboard.isPressed("down") then
-        self.character.tileY = self.character.tileY + 1
+        local newY = self.character.tileY + 1
+        if self.map:canWalk(self.character.tileX, newY) then
+            self.character.tileY = newY
+        end
     elseif love.keyboard.isPressed("left") then
-        self.character.tileX = self.character.tileX - 1
+        local newX = self.character.tileX - 1
+        if self.map:canWalk(newX, self.character.tileY) then
+            self.character.tileX = newX
+        end
     elseif love.keyboard.isPressed("right") then
-        self.character.tileX = self.character.tileX + 1
+        local newX = self.character.tileX + 1
+        if self.map:canWalk(newX, self.character.tileY) then
+            self.character.tileX = newX
+        end
     end
     self.character:update(dt)
     GlobalAnimation.update(dt)
