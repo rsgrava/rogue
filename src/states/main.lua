@@ -39,6 +39,7 @@ function mainState:update(dt)
     end
     self.character:update(dt)
     GlobalAnimation.update(dt)
+    self:centerCamera()
 end
 
 function mainState:draw()
@@ -46,4 +47,35 @@ function mainState:draw()
         self.map:draw()
         self.character:draw()
     self.camera:detach()
+end
+
+function mainState:centerCamera()
+    local camX = self.character.x + (TILE_W - GAME_W) / 2
+    local camY = self.character.y + (TILE_H - GAME_H) / 2
+    local mapWidth = self.map.width * TILE_W
+    local mapHeight = self.map.height * TILE_W
+
+    if camX < 0 then
+        camX = 0
+    end
+    if camX + GAME_W > mapWidth then
+        if mapWidth < GAME_W then
+            camX = (mapWidth - GAME_W) / 2
+        else
+            camX = mapWidth - GAME_W
+        end
+    end
+
+    if camY < 0 then
+        camY = 0
+    end
+    if camY + GAME_H > mapHeight then
+        if mapHeight < GAME_H then
+            camY = (mapHeight - GAME_H) / 2
+        else
+            camY = mapHeight - GAME_H
+        end
+    end
+
+    self.camera:lookAt(math.floor(camX + love.graphics.getWidth() / 2), math.floor(camY + love.graphics.getHeight() / 2))
 end
