@@ -54,3 +54,17 @@ end
 function Map:isVisible(x, y)
     return self.tiles[x + self.width * y + 1].visible
 end
+
+function Map:isBlocked(objects, x, y)
+    if not self:canWalk(x, y) then
+        return true
+    end
+
+    for objectId, object in pairs(objects) do
+        if object.blocks and object.tileX == x and object.tileY == y  then
+            return true
+        end
+    end
+
+    return false
+end
