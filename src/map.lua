@@ -36,14 +36,14 @@ function Map:setExplored(x, y)
     self.tiles[x + y * self.width + 1].explored = true
 end
 
-function Map:computeFOV(playerX, playerY, r)
-    for tileId, tile in pairs(self.tiles) do
-        tile.visible = false
-    end
-    for x = math.max(0, playerX - r), math.min(playerX + r, self.width) do
-        for y = math.max(0, playerY - r), math.min(playerY + r, self.height) do
-            self.tiles[x + self.width * y + 1].wasExplored = true
-            self.tiles[x + self.width * y + 1].visible = true
-        end
-    end
+function Map:canWalk(x, y)
+    return self.tiles[x + self.width * y + 1]:canWalk()
+end
+
+function Map:canFly(x, y)
+    return self.tiles[x + self.width * y + 1]:canFly()
+end
+
+function Map:isTransparent(x, y)
+    return self.tiles[x + self.width * y + 1].isTransparent()
 end
