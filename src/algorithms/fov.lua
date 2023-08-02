@@ -24,7 +24,8 @@ function Slope:lessOrEqual(y, x)
     return self.y * x <= self.x * y
 end
 
-function euclideanDistance(x, y)
+function distanceToOrigin(x, y)
+    -- euclidean
     return math.sqrt(x^2, y^2)
 end
 
@@ -113,7 +114,7 @@ function computeIteration(map, ox, oy, r, octant, top, bottom)
 
         local wasOpaque = -1
         for y = topY, bottomY, -1 do
-            if r < 0 or euclideanDistance(x, y) <= r then
+            if r < 0 or distanceToOrigin(x, y) <= r then
                 local isOpaque = blocksLight(map, x, y, octant, ox, oy)
                 local isVisible = ((y ~= topY or top:greaterOrEqual(y, x)) and (y ~= bottomY or bottom:lessOrEqual(y, x)))
                 if isVisible then
