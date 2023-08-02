@@ -1,6 +1,6 @@
 Camera = require("libs/camera")
 require("src/core/global_animation")
-require("src/map")
+require("src/dungeon_generator")
 require("src/entities/game_object")
 
 mainState = {}
@@ -10,14 +10,21 @@ end
 
 function mainState:enter()
     self.camera = Camera()
-    self.map = Map()
+    self.map, startX, startY = generateDungeon({
+        width = 100,
+        height = 100,
+        minRooms = 20,
+        maxRooms = 30,
+        minSize = 6,
+        maxSize = 10
+    })
     self.character = GameObject({
         texture1 = assets.graphics.Characters.Player0,
         texture2 = assets.graphics.Characters.Player1,
         quadX = 0,
         quadY = 0,
-        tileX = 1,
-        tileY = 1,
+        tileX = startX,
+        tileY = startY,
     })
 end
 
