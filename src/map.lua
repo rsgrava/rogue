@@ -28,11 +28,8 @@ function Map:setTile(id, x, y)
     self.tiles[x + y * self.width + 1] = Tile(id)
 end
 
-function Map:setVisible(x, y)
+function Map:reveal(x, y)
     self.tiles[x + y * self.width + 1].visible = true
-end
-
-function Map:setExplored(x, y)
     self.tiles[x + y * self.width + 1].explored = true
 end
 
