@@ -11,7 +11,7 @@ end
 
 function mainState:enter()
     self.camera = Camera()
-    self.map, self.enemies, startX, startY = generateDungeon({
+    self.map, self.objects, startX, startY = generateDungeon({
         width = 100,
         height = 100,
         minRooms = 20,
@@ -28,8 +28,8 @@ function mainState:enter()
         tileY = startY,
     })
     self.character:update()
-    for enemyId, enemy in pairs(self.enemies) do
-        enemy:update()
+    for objectId, object in pairs(self.objects) do
+        object:update()
     end
     self:centerCamera()
     computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
@@ -67,7 +67,7 @@ function mainState:update(dt)
     end
 
     local moved = false
-    if self.map:canWalk(newX, newY) then
+    if not self.map:isBlocked(self.objects, newX, newY) then
         self.character.tileX = newX
         self.character.tileY = newY
         moved = true
@@ -86,8 +86,8 @@ function mainState:draw()
     self.camera:attach()
         self.map:draw()
         self.character:draw()
-        for enemyId, enemy in pairs(self.enemies) do
-            enemy:draw(self.map)
+        for objectId, object in pairs(self.objects) do
+            object:draw(self.map)
         end
     self.camera:detach()
 end
