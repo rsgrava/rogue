@@ -6,11 +6,11 @@ Tile = Class{}
 function Tile:init(id)
     self.tileDef = db.tiles[id]
     self.visible = false
-    self.wasExplored = false
+    self.explored = false
 end
 
 function Tile:draw(x, y)
-    if self.wasExplored then
+    if self.explored then
         if not self.visible then
             love.graphics.setColor(0.5, 0.5, 0.5)
         end
@@ -35,4 +35,8 @@ end
 
 function Tile:canFly()
     return self.tileDef.canFly
+end
+
+function Tile:isTransparent()
+    return self.tileDef.transparent
 end
