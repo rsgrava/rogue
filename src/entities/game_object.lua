@@ -2,7 +2,8 @@ Class = require("libs/class")
 require("src/core/drawable")
 
 GameObject = Class{
-    __includes = Drawable
+    __includes = Drawable,
+    blocks = false
 }
 
 function GameObject:init(defs)

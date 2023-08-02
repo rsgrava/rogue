@@ -11,6 +11,7 @@ function Enemy:init(defs)
     defs.texture2 = enemyDef.texture2
     defs.quadX = enemyDef.quadX
     defs.quadY = enemyDef.quadY
+    self.blocks = true
     GameObject.init(self, defs)
 end
 
