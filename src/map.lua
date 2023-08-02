@@ -6,9 +6,9 @@ function Map:init()
     self.tiles = {}
     self.width = 50
     self.height = 50
-    for y = 0, self.height do
-        for x = 1, self.width do
-            self.tiles[x + y * self.width] = Tile("grass")
+    for y = 0, self.height - 1 do
+        for x = 0, self.width do
+            self.tiles[x + y * self.width + 1] = Tile("wall")
         end
     end
 end
@@ -25,9 +25,9 @@ function Map:draw()
 end
 
 function Map:canWalk(tileX, tileY)
-    return self.tiles[tileX + self.width * tileY].canWalk
+    return self.tiles[tileX + self.width * tileY + 1]:canWalk()
 end
 
 function Map:canFly(tileX, tileY)
-    return self.tiles[tileX + self.width * tileY].canFly
+    return self.tiles[tileX + self.width * tileY + 1]:canFly()
 end
