@@ -1,22 +1,14 @@
 Class = require("libs/class")
+require("src/entities/character")
 
-Enemy = Class{}
+Enemy = Class{
+    __includes = Character
+}
 
 function Enemy:init(defs)
-    local enemyDef = db.enemies[defs.id]
-    defs.texture1 = enemyDef.texture1
-    defs.texture2 = enemyDef.texture2
-    defs.quadX = enemyDef.quadX
-    defs.quadY = enemyDef.quadY
-    self.sprite = Sprite({
-        texture1 = enemyDef.texture1,
-        texture2 = enemyDef.texture2,
-        quadX = enemyDef.quadX,
-        quadY = enemyDef.quadY
-    })
-    self.tileX = defs.tileX
-    self.tileY = defs.tileY
-    self.blocks = true
+    Character.init(self, defs)
+    local def = db.characters[defs.id]
+    self.ai = def.ai
 end
 
 function Enemy:update(dt)
