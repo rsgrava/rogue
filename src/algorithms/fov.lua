@@ -1,5 +1,5 @@
 Class = require("libs/class")
-require("src/map")
+require("src/entities/map")
 
 Slope = Class{}
 

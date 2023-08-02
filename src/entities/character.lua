@@ -1,25 +1,19 @@
 Class = require("libs/class")
-require("src/entities/game_object")
+require("src/entities/sprite")
 
 Character = Class{}
 
 function Character:init(defs)
-    local enemyDef = db.enemies[defs.id]
+    self.tileX = defs.tileX
+    self.tileY = defs.tileY
     self.sprite = Sprite({
-        texture1 = enemyDef.texture1,
-        texture2 = enemyDef.texture2,
-        quadX = enemyDef.quadX,
-        quadY = enemyDef.quadY
+        texture1 = defs.texture1,
+        texture2 = defs.texture2,
+        quadX = defs.quadX,
+        quadY = defs.quadY
     })
 end
 
-function Character:update(dt)
-    self.sprite.x = self.tileX * TILE_W
-    self.sprite.y = self.tileY * TILE_H
-end
-
-function Character:draw(map)
-    if map:isVisible(self.tileX, self.tileY) then
-        self.sprite:draw()
-    end
+function Character:draw()
+    self.sprite:draw(self.tileX * TILE_W, self.tileY * TILE_H)
 end

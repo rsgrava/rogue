@@ -1,4 +1,4 @@
-require("src/tile")
+require("src/entities/tile")
 
 Map = Class{}
 

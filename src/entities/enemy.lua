@@ -1,9 +1,6 @@
 Class = require("libs/class")
-require("src/entities/game_object")
 
-Enemy = Class{
-    __includes = GameObject
-}
+Enemy = Class{}
 
 function Enemy:init(defs)
     local enemyDef = db.enemies[defs.id]
@@ -11,16 +8,22 @@ function Enemy:init(defs)
     defs.texture2 = enemyDef.texture2
     defs.quadX = enemyDef.quadX
     defs.quadY = enemyDef.quadY
+    self.sprite = Sprite({
+        texture1 = enemyDef.texture1,
+        texture2 = enemyDef.texture2,
+        quadX = enemyDef.quadX,
+        quadY = enemyDef.quadY
+    })
+    self.tileX = defs.tileX
+    self.tileY = defs.tileY
     self.blocks = true
-    GameObject.init(self, defs)
 end
 
 function Enemy:update(dt)
-    GameObject.update(self)
 end
 
 function Enemy:draw(map)
     if map:isVisible(self.tileX, self.tileY) then
-        Drawable.draw(self)
+        self.sprite:draw(self.tileX * TILE_W, self.tileY * TILE_H)
     end
 end

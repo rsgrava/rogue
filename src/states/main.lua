@@ -1,8 +1,8 @@
 Camera = require("libs/camera")
-require("src/core/global_animation")
-require("src/dungeon_generator")
-require("src/entities/game_object")
-require("src/fov")
+require("src/algorithms/dungeon_generator")
+require("src/algorithms/fov")
+require("src/algorithms/global_animation")
+require("src/entities/character")
 
 mainState = {}
 
@@ -19,7 +19,7 @@ function mainState:enter()
         minSize = 6,
         maxSize = 10
     })
-    self.character = GameObject({
+    self.character = Character({
         texture1 = assets.graphics.Characters.Player0,
         texture2 = assets.graphics.Characters.Player1,
         quadX = 0,
@@ -27,7 +27,6 @@ function mainState:enter()
         tileX = startX,
         tileY = startY,
     })
-    self.character:update()
     for objectId, object in pairs(self.objects) do
         object:update()
     end
@@ -74,7 +73,6 @@ function mainState:update(dt)
     end
 
     if moved then
-        self.character:update(dt)
         computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
         self:centerCamera()
     end
@@ -93,8 +91,8 @@ function mainState:draw()
 end
 
 function mainState:centerCamera()
-    local camX = self.character.x + (TILE_W - GAME_W) / 2
-    local camY = self.character.y + (TILE_H - GAME_H) / 2
+    local camX = self.character.tileX * TILE_W + (TILE_W - GAME_W) / 2
+    local camY = self.character.tileY * TILE_H + (TILE_H - GAME_H) / 2
     local mapWidth = self.map.width * TILE_W
     local mapHeight = self.map.height * TILE_W
 
