@@ -1,16 +1,15 @@
-require("src/global_animation")
+require("src/algorithms/global_animation")
 
 Sprite = Class{}
 
-function Sprite:init(texture1, texture2, tileX, tileY)
-    self.x = 0
-    self.y = 0
-    self.texture1 = texture1
-    self.texture2 = texture2
-    self.quad = love.graphics.newQuad(tileX * TILE_W, tileY * TILE_H, TILE_W, TILE_H, texture1)
+function Sprite:init(defs)
+    self.texture1 = defs.texture1
+    self.texture2 = defs.texture2
+    self.quad = love.graphics.newQuad(defs.quadX * TILE_W, defs.quadY * TILE_H,
+        TILE_W, TILE_H, defs.texture1)
 end
 
-function Sprite:draw()
+function Sprite:draw(x, y)
     local texture = self.texture1
     if GlobalAnimation.frame == 2 and self.texture2 ~= nil then
         texture = self.texture2
@@ -19,7 +18,7 @@ function Sprite:draw()
     love.graphics.draw(
         texture,
         self.quad,
-        self.x,
-        self.y
+        x,
+        y
     )
 end
