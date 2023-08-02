@@ -28,12 +28,12 @@ function Map:setTile(id, x, y)
     self.tiles[x + y * self.width + 1] = Tile(id)
 end
 
-function Map:canWalk(tileX, tileY)
-    return self.tiles[tileX + self.width * tileY + 1]:canWalk()
+function Map:setVisible(x, y)
+    self.tiles[x + y * self.width + 1].visible = true
 end
 
-function Map:canFly(tileX, tileY)
-    return self.tiles[tileX + self.width * tileY + 1]:canFly()
+function Map:setExplored(x, y)
+    self.tiles[x + y * self.width + 1].explored = true
 end
 
 function Map:computeFOV(playerX, playerY, r)
