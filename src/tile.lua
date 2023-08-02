@@ -16,3 +16,11 @@ function Tile:draw(x, y)
         y
     )
 end
+
+function Tile:canWalk()
+    return self.tileDef.canWalk
+end
+
+function Tile:canFly()
+    return self.tileDef.canFly
+end
