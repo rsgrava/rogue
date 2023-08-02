@@ -26,6 +26,9 @@ function mainState:enter()
         tileX = startX,
         tileY = startY,
     })
+    self.character:update()
+    self:centerCamera()
+    self.map:computeFOV(self.character.tileX, self.character.tileY, VIEW_RADIUS)
 end
 
 function mainState:leave()
@@ -35,30 +38,40 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
+    local moved = false
     if love.keyboard.isPressed("up") then
         local newY = self.character.tileY - 1
         if self.map:canWalk(self.character.tileX, newY) then
             self.character.tileY = newY
+            moved = true
         end
     elseif love.keyboard.isPressed("down") then
         local newY = self.character.tileY + 1
         if self.map:canWalk(self.character.tileX, newY) then
             self.character.tileY = newY
+            moved = true
         end
     elseif love.keyboard.isPressed("left") then
         local newX = self.character.tileX - 1
         if self.map:canWalk(newX, self.character.tileY) then
             self.character.tileX = newX
+            moved = true
         end
     elseif love.keyboard.isPressed("right") then
         local newX = self.character.tileX + 1
         if self.map:canWalk(newX, self.character.tileY) then
             self.character.tileX = newX
+            moved = true
         end
     end
-    self.character:update(dt)
+
+    if moved then
+        self.character:update(dt)
+        self.map:computeFOV(self.character.tileX, self.character.tileY, VIEW_RADIUS)
+        self:centerCamera()
+    end
+
     GlobalAnimation.update(dt)
-    self:centerCamera()
 end
 
 function mainState:draw()

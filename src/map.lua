@@ -35,3 +35,15 @@ end
 function Map:canFly(tileX, tileY)
     return self.tiles[tileX + self.width * tileY + 1]:canFly()
 end
+
+function Map:computeFOV(playerX, playerY, r)
+    for tileId, tile in pairs(self.tiles) do
+        tile.visible = false
+    end
+    for x = math.max(0, playerX - r), math.min(playerX + r, self.width) do
+        for y = math.max(0, playerY - r), math.min(playerY + r, self.height) do
+            self.tiles[x + self.width * y + 1].wasExplored = true
+            self.tiles[x + self.width * y + 1].visible = true
+        end
+    end
+end
