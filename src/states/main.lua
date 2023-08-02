@@ -39,31 +39,35 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
+    local newX = self.character.tileX
+    local newY = self.character.tileY
+    if love.keyboard.isPressed("kp7") then
+        newX = newX - 1
+        newY = newY - 1
+    elseif love.keyboard.isPressed("kp9") then
+        newX = newX + 1
+        newY = newY - 1
+    elseif love.keyboard.isPressed("kp1") then
+        newX = newX - 1
+        newY = newY + 1
+    elseif love.keyboard.isPressed("kp3") then
+        newX = newX + 1
+        newY = newY + 1
+    elseif love.keyboard.isPressed("up") or love.keyboard.isPressed("kp8") then
+        newY = newY - 1
+    elseif love.keyboard.isPressed("down") or love.keyboard.isPressed("kp2") then
+        newY = newY + 1
+    elseif love.keyboard.isPressed("left") or love.keyboard.isPressed("kp4") then
+        newX = newX - 1
+    elseif love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
+        newX = newX + 1
+    end
+
     local moved = false
-    if love.keyboard.isPressed("up") then
-        local newY = self.character.tileY - 1
-        if self.map:canWalk(self.character.tileX, newY) then
-            self.character.tileY = newY
-            moved = true
-        end
-    elseif love.keyboard.isPressed("down") then
-        local newY = self.character.tileY + 1
-        if self.map:canWalk(self.character.tileX, newY) then
-            self.character.tileY = newY
-            moved = true
-        end
-    elseif love.keyboard.isPressed("left") then
-        local newX = self.character.tileX - 1
-        if self.map:canWalk(newX, self.character.tileY) then
-            self.character.tileX = newX
-            moved = true
-        end
-    elseif love.keyboard.isPressed("right") then
-        local newX = self.character.tileX + 1
-        if self.map:canWalk(newX, self.character.tileY) then
-            self.character.tileX = newX
-            moved = true
-        end
+    if self.map:canWalk(newX, newY) then
+        self.character.tileX = newX
+        self.character.tileY = newY
+        moved = true
     end
 
     if moved then
