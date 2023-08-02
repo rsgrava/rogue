@@ -2,10 +2,10 @@ require("src/tile")
 
 Map = Class{}
 
-function Map:init()
+function Map:init(defs)
     self.tiles = {}
-    self.width = 50
-    self.height = 50
+    self.width = defs.width
+    self.height = defs.height
     for y = 0, self.height - 1 do
         for x = 0, self.width do
             self.tiles[x + y * self.width + 1] = Tile("wall")
