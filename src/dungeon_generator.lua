@@ -1,5 +1,6 @@
 Class = require("libs/class")
 require("src/map")
+require("src/entities/enemy")
 
 Room = Class{}
 
@@ -21,6 +22,7 @@ end
 
 function generateDungeon(defs)
     local map = Map({ width = defs.width, height = defs.height })
+    local enemies = {}
     local startX, startY = 0
 
     local rooms = {}
@@ -42,6 +44,7 @@ function generateDungeon(defs)
         
         if not failed then
             createRoom(map, newRoom)
+            placeEnemies(newRoom, enemies)
             local newX, newY = newRoom:center()
             if #rooms == 0 then
                 startX = newX
@@ -60,7 +63,7 @@ function generateDungeon(defs)
         end
     end
 
-    return map, startX, startY
+    return map, enemies, startX, startY
 end
 
 function createRoom(map, room)
@@ -80,5 +83,13 @@ end
 function createVTunnel(map, x, y1, y2)
     for y = math.min(y1, y2), math.max(y1, y2) do
         map:setTile("grass", x, y)
+    end
+end
+
+function placeEnemies(room, enemies)
+    for i = 0, 2 do
+        local x = math.random(room.x1 + 1, room.x2 - 1)
+        local y = math.random(room.y1 + 1, room.y2 - 1)
+        table.insert(enemies, Enemy({ id = "rat", tileX = x, tileY = y }))
     end
 end

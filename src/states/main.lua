@@ -11,7 +11,7 @@ end
 
 function mainState:enter()
     self.camera = Camera()
-    self.map, startX, startY = generateDungeon({
+    self.map, self.enemies, startX, startY = generateDungeon({
         width = 100,
         height = 100,
         minRooms = 20,
@@ -28,6 +28,9 @@ function mainState:enter()
         tileY = startY,
     })
     self.character:update()
+    for enemyId, enemy in pairs(self.enemies) do
+        enemy:update()
+    end
     self:centerCamera()
     computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
 end
@@ -83,6 +86,9 @@ function mainState:draw()
     self.camera:attach()
         self.map:draw()
         self.character:draw()
+        for enemyId, enemy in pairs(self.enemies) do
+            enemy:draw(self.map)
+        end
     self.camera:detach()
 end
 
