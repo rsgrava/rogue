@@ -33,6 +33,12 @@ function Map:reveal(x, y)
     self.tiles[x + y * self.width + 1].explored = true
 end
 
+function Map:clearVisibility()
+    for tileId, tile in pairs(self.tiles) do
+        tile.visible = false
+    end
+end
+
 function Map:canWalk(x, y)
     return self.tiles[x + self.width * y + 1]:canWalk()
 end
