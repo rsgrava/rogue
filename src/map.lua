@@ -24,6 +24,10 @@ function Map:draw()
     end
 end
 
+function Map:setTile(id, x, y)
+    self.tiles[x + y * self.width + 1] = Tile(id)
+end
+
 function Map:canWalk(tileX, tileY)
     return self.tiles[tileX + self.width * tileY + 1]:canWalk()
 end
