@@ -48,5 +48,5 @@ function Map:canFly(x, y)
 end
 
 function Map:isTransparent(x, y)
-    return self.tiles[x + self.width * y + 1].isTransparent()
+    return self.tiles[x + self.width * y + 1]:isTransparent()
 end
