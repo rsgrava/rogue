@@ -2,6 +2,7 @@ Camera = require("libs/camera")
 require("src/core/global_animation")
 require("src/dungeon_generator")
 require("src/entities/game_object")
+require("src/fov")
 
 mainState = {}
 
@@ -28,7 +29,7 @@ function mainState:enter()
     })
     self.character:update()
     self:centerCamera()
-    self.map:computeFOV(self.character.tileX, self.character.tileY, VIEW_RADIUS)
+    computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
 end
 
 function mainState:leave()
@@ -67,7 +68,7 @@ function mainState:update(dt)
 
     if moved then
         self.character:update(dt)
-        self.map:computeFOV(self.character.tileX, self.character.tileY, VIEW_RADIUS)
+        computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
         self:centerCamera()
     end
 
