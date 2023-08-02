@@ -11,11 +11,6 @@ function Enemy:init(defs)
     self.ai = def.ai
 end
 
-function Enemy:update(dt)
-end
-
-function Enemy:draw(map)
-    if map:isVisible(self.tileX, self.tileY) then
-        self.sprite:draw(self.tileX * TILE_W, self.tileY * TILE_H)
-    end
+function Enemy:takeTurn(map, player, objects)
+    self.ai(self, map, player, objects)
 end
