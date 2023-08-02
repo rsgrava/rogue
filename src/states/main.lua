@@ -2,7 +2,7 @@ Camera = require("libs/camera")
 require("src/algorithms/dungeon_generator")
 require("src/algorithms/fov")
 require("src/algorithms/global_animation")
-require("src/entities/character")
+require("src/entities/player_character")
 
 mainState = {}
 
@@ -20,7 +20,7 @@ function mainState:enter()
         maxSize = 10
     })
 
-    self.player = Character({
+    self.player = PlayerCharacter({
         id = "player",
         tileX = startX,
         tileY = startY
@@ -37,26 +37,7 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
-    local moved
-    if love.keyboard.isPressed("kp7") then
-        moved = self.player:tryMove(self.map, self.objects, -1, -1)
-    elseif love.keyboard.isPressed("kp9") then
-        moved = self.player:tryMove(self.map, self.objects, 1, -1)
-    elseif love.keyboard.isPressed("kp1") then
-        moved = self.player:tryMove(self.map, self.objects, -1, 1)
-    elseif love.keyboard.isPressed("kp3") then
-        moved = self.player:tryMove(self.map, self.objects, 1, 1)
-    elseif love.keyboard.isPressed("up") or love.keyboard.isPressed("kp8") then
-        moved = self.player:tryMove(self.map, self.objects, 0, -1)
-    elseif love.keyboard.isPressed("down") or love.keyboard.isPressed("kp2") then
-        moved = self.player:tryMove(self.map, self.objects, 0, 1)
-    elseif love.keyboard.isPressed("left") or love.keyboard.isPressed("kp4") then
-        moved = self.player:tryMove(self.map, self.objects, -1, 0)
-    elseif love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
-        moved = self.player:tryMove(self.map, self.objects, 1, 0)
-    end
-
-    if moved then
+    if self.player:takeTurn(self.map, self.objects) then
         for objectId, object in pairs(self.objects) do
             object:takeTurn(self.map, self.player, self.objects)
         end
