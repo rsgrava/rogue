@@ -19,19 +19,15 @@ function mainState:enter()
         minSize = 6,
         maxSize = 10
     })
-    self.character = Character({
-        texture1 = assets.graphics.Characters.Player0,
-        texture2 = assets.graphics.Characters.Player1,
-        quadX = 0,
-        quadY = 0,
+
+    self.player = Character({
+        id = "player",
         tileX = startX,
-        tileY = startY,
+        tileY = startY
     })
-    for objectId, object in pairs(self.objects) do
-        object:update()
-    end
+
     self:centerCamera()
-    computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
+    computeFOV(self.map, self.player.tileX, self.player.tileY, VIEW_RADIUS)
 end
 
 function mainState:leave()
@@ -41,39 +37,30 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
-    local newX = self.character.tileX
-    local newY = self.character.tileY
+    local moved
     if love.keyboard.isPressed("kp7") then
-        newX = newX - 1
-        newY = newY - 1
+        moved = self.player:tryMove(self.map, self.objects, -1, -1)
     elseif love.keyboard.isPressed("kp9") then
-        newX = newX + 1
-        newY = newY - 1
+        moved = self.player:tryMove(self.map, self.objects, 1, -1)
     elseif love.keyboard.isPressed("kp1") then
-        newX = newX - 1
-        newY = newY + 1
+        moved = self.player:tryMove(self.map, self.objects, -1, 1)
     elseif love.keyboard.isPressed("kp3") then
-        newX = newX + 1
-        newY = newY + 1
+        moved = self.player:tryMove(self.map, self.objects, 1, 1)
     elseif love.keyboard.isPressed("up") or love.keyboard.isPressed("kp8") then
-        newY = newY - 1
+        moved = self.player:tryMove(self.map, self.objects, 0, -1)
     elseif love.keyboard.isPressed("down") or love.keyboard.isPressed("kp2") then
-        newY = newY + 1
+        moved = self.player:tryMove(self.map, self.objects, 0, 1)
     elseif love.keyboard.isPressed("left") or love.keyboard.isPressed("kp4") then
-        newX = newX - 1
+        moved = self.player:tryMove(self.map, self.objects, -1, 0)
     elseif love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
-        newX = newX + 1
-    end
-
-    local moved = false
-    if not self.map:isBlocked(self.objects, newX, newY) then
-        self.character.tileX = newX
-        self.character.tileY = newY
-        moved = true
+        moved = self.player:tryMove(self.map, self.objects, 1, 0)
     end
 
     if moved then
-        computeFOV(self.map, self.character.tileX, self.character.tileY, VIEW_RADIUS)
+        for objectId, object in pairs(self.objects) do
+            object:takeTurn(self.map, self.player, self.objects)
+        end
+        computeFOV(self.map, self.player.tileX, self.player.tileY, VIEW_RADIUS)
         self:centerCamera()
     end
 
@@ -83,7 +70,7 @@ end
 function mainState:draw()
     self.camera:attach()
         self.map:draw()
-        self.character:draw()
+        self.player:draw(self.map)
         for objectId, object in pairs(self.objects) do
             object:draw(self.map)
         end
@@ -91,8 +78,8 @@ function mainState:draw()
 end
 
 function mainState:centerCamera()
-    local camX = self.character.tileX * TILE_W + (TILE_W - GAME_W) / 2
-    local camY = self.character.tileY * TILE_H + (TILE_H - GAME_H) / 2
+    local camX = self.player.tileX * TILE_W + (TILE_W - GAME_W) / 2
+    local camY = self.player.tileY * TILE_H + (TILE_H - GAME_H) / 2
     local mapWidth = self.map.width * TILE_W
     local mapHeight = self.map.height * TILE_W
 
