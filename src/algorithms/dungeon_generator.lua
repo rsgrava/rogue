@@ -90,8 +90,22 @@ function placeEnemies(map, room, objects)
     for i = 0, 2 do
         local x = math.random(room.x1 + 1, room.x2 - 1)
         local y = math.random(room.y1 + 1, room.y2 - 1)
-        if not map:isBlocked(objects, x, y) then
+        if not isBlocked(map, objects, x, y) then
             table.insert(objects, Enemy({ id = "rat", tileX = x, tileY = y }))
         end
     end
+end
+
+function isBlocked(map, objects, x, y)
+    if not map:canWalk(x, y) then
+        return true
+    end
+
+    for objectId, object in pairs(objects) do
+        if object.blocks and object.tileX == x and object.tileY == y  then
+            return true
+        end
+    end
+
+    return false
 end

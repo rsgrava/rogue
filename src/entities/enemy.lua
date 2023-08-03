@@ -8,9 +8,5 @@ Enemy = Class{
 function Enemy:init(defs)
     Character.init(self, defs)
     local def = db.characters[defs.id]
-    self.ai = def.ai
-end
-
-function Enemy:takeTurn(map, player, objects)
-    self.ai(self, map, player, objects)
+    self.takeTurn = def.ai
 end

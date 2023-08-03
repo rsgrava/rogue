@@ -13,9 +13,6 @@ function Map:init(defs)
     end
 end
 
-function Map:update()
-end
-
 function Map:draw()
     for tileId, tile in ipairs(self.tiles) do
         local x = (math.floor((tileId - 1) % self.width)) * TILE_W
@@ -55,16 +52,6 @@ function Map:isVisible(x, y)
     return self.tiles[x + self.width * y + 1].visible
 end
 
-function Map:isBlocked(objects, x, y)
-    if not self:canWalk(x, y) then
-        return true
-    end
-
-    for objectId, object in pairs(objects) do
-        if object.blocks and object.tileX == x and object.tileY == y  then
-            return true
-        end
-    end
-
-    return false
+function Map:isBlocked(x, y)
+    return isBlocked(self, gObjects, x, y)
 end

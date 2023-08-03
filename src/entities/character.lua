@@ -17,14 +17,14 @@ function Character:init(defs)
     self.blocks = true
 end
 
-function Character:draw(map)
-    if map:isVisible(self.tileX, self.tileY) then
+function Character:draw()
+    if gMap:isVisible(self.tileX, self.tileY) then
         self.sprite:draw(self.tileX * TILE_W, self.tileY * TILE_H)
     end
 end
 
-function Character:tryMove(map, objects, dx, dy)
-    if not map:isBlocked(objects, self.tileX + dx, self.tileY + dy) then
+function Character:tryMove(dx, dy)
+    if not gMap:isBlocked(self.tileX + dx, self.tileY + dy) then
         self.tileX = self.tileX + dx
         self.tileY = self.tileY + dy
         return true
@@ -33,7 +33,7 @@ function Character:tryMove(map, objects, dx, dy)
 end
 
 
-function Character:moveTowards(map, objects, x, y)
+function Character:moveTowards(x, y)
     local dx = x - self.tileX
     local dy = y - self.tileY
     local distance = math.sqrt(dx^2 + dy^2)
@@ -41,10 +41,10 @@ function Character:moveTowards(map, objects, x, y)
     dx = math.round(dx / distance)
     dy = math.round(dy / distance)
 
-    self:tryMove(map, objects, dx, dy)
+    self:tryMove(dx, dy)
 end
 
-function Character:moveAwayFrom(map, objects, x, y)
+function Character:moveAwayFrom(x, y)
     local dx = self.tileX - x
     local dy = self.tileY - y
     local distance = math.sqrt(dx^2 + dy^2)
@@ -52,5 +52,5 @@ function Character:moveAwayFrom(map, objects, x, y)
     dx = math.round(dx / distance)
     dy = math.round(dy / distance)
 
-    self:tryMove(map, objects, dx, dy)
+    self:tryMove(dx, dy)
 end

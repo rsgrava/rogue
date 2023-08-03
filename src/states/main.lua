@@ -11,7 +11,7 @@ end
 
 function mainState:enter()
     self.camera = Camera()
-    self.map, self.objects, startX, startY = generateDungeon({
+    gMap, gObjects, startX, startY = generateDungeon({
         width = 100,
         height = 100,
         minRooms = 20,
@@ -20,14 +20,14 @@ function mainState:enter()
         maxSize = 10
     })
 
-    self.player = PlayerCharacter({
+    gPlayer = PlayerCharacter({
         id = "player",
         tileX = startX,
         tileY = startY
     })
 
     self:centerCamera()
-    computeFOV(self.map, self.player.tileX, self.player.tileY, VIEW_RADIUS)
+    computeFOV(gMap, gPlayer.tileX, gPlayer.tileY, VIEW_RADIUS)
 end
 
 function mainState:leave()
@@ -37,11 +37,11 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
-    if self.player:takeTurn(self.map, self.objects) then
-        for objectId, object in pairs(self.objects) do
-            object:takeTurn(self.map, self.player, self.objects)
+    if gPlayer:takeTurn() then
+        for objectId, object in pairs(gObjects) do
+            object:takeTurn()
         end
-        computeFOV(self.map, self.player.tileX, self.player.tileY, VIEW_RADIUS)
+        computeFOV(gMap, gPlayer.tileX, gPlayer.tileY, VIEW_RADIUS)
         self:centerCamera()
     end
 
@@ -50,19 +50,19 @@ end
 
 function mainState:draw()
     self.camera:attach()
-        self.map:draw()
-        self.player:draw(self.map)
-        for objectId, object in pairs(self.objects) do
-            object:draw(self.map)
+        gMap:draw()
+        gPlayer:draw()
+        for objectId, object in pairs(gObjects) do
+            object:draw()
         end
     self.camera:detach()
 end
 
 function mainState:centerCamera()
-    local camX = self.player.tileX * TILE_W + (TILE_W - GAME_W) / 2
-    local camY = self.player.tileY * TILE_H + (TILE_H - GAME_H) / 2
-    local mapWidth = self.map.width * TILE_W
-    local mapHeight = self.map.height * TILE_W
+    local camX = gPlayer.tileX * TILE_W + (TILE_W - GAME_W) / 2
+    local camY = gPlayer.tileY * TILE_H + (TILE_H - GAME_H) / 2
+    local mapWidth = gMap.width * TILE_W
+    local mapHeight = gMap.height * TILE_W
 
     if camX < 0 then
         camX = 0
