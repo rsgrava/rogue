@@ -1,11 +1,11 @@
 Class = require("libs/class")
 require("src/entities/character")
 
-Enemy = Class{
+NPC = Class{
     __includes = Character
 }
 
-function Enemy:init(defs)
+function NPC:init(defs)
     Character.init(self, defs)
     local def = db.characters[defs.id]
     self.takeTurn = def.ai
