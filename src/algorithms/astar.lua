@@ -1,8 +1,9 @@
 require("src/algorithms/bheap")
 
 local function heuristic(node1, node2)
-    -- manhattan distance
-    return math.abs(node1.x - node2.x) + math.abs(node1.y - node2.y)
+    -- chebyshev
+    --return math.max(math.abs(node1.x-node2.x), math.abs(node1.y-node2.y))
+    return math.sqrt((node1.x-node2.x)^2 + (node1.y-node2.y)^2)
 end
 
 local adj = {
