@@ -36,6 +36,16 @@ function Map:clearVisibility()
     end
 end
 
+function Map:exploreAll()
+    for tileId, tile in pairs(self.tiles) do
+        tile.explored = true
+    end
+end
+
+function Map:getName(x, y)
+    return self.tiles[x + self.width * y + 1].name
+end
+
 function Map:canWalk(x, y)
     return self.tiles[x + self.width * y + 1]:canWalk()
 end
