@@ -10,9 +10,12 @@ require("src/states/main")
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
+
     local window_w, window_h = love.window.getDesktopDimensions()
     push:setupScreen(GAME_W, GAME_H, window_w, window_h,
                      {fullscreen = true, resizable = true, vsync = true})
+
+    love.graphics.setFont(assets.fonts.DotFont(16))
 
     love.keyboard.pressed = {}
     love.keyboard.released = {}
