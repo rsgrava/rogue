@@ -1,6 +1,6 @@
 function attackPlayer(self)
-    if map:isVisible(self.tileX, self.tileY) then
-        self:moveTowards(player.tileX, player.tileY)
+    if gMap:isVisible(self.tileX, self.tileY) then
+        self:moveTowards(gPlayer.tileX, gPlayer.tileY)
     end
 end
 
