@@ -51,33 +51,35 @@ function astar(map, fromX, fromY, toX, toY)
 
     while not open:empty() do
         local current = open:pop()
-        if current.x == finish.x and current.y == finish.y then
-            local path = {}
-            while true do
-                if current.prev then
-                    table.insert(path, 1, current)
-                    current = current.prev
-                else
-                    table.insert(path, 1, start)
-                    return path
+        if not closed[cantor(current)] then
+            if current.x == finish.x and current.y == finish.y then
+                local path = {}
+                while true do
+                    if current.prev then
+                        table.insert(path, 1, current)
+                        current = current.prev
+                    else
+                        table.insert(path, 1, start)
+                        return path
+                    end
                 end
             end
-        end
 
-        closed[cantor(current)] = true
+            closed[cantor(current)] = true
 
-        local neighbors = getNeighbors(map, current)
-        for _, neighbor in ipairs(neighbors) do
-            if not closed[cantor(neighbor)] then
-                addedG = current.g + heuristic(current, neighbor)
-                if not neighbor.g or gScore < neighbor.g then
-                    neighbor.g = addedG
-                    if not neighbor.h then
-                        neighbor.h = heuristic(neighbor, finish)
+            local neighbors = getNeighbors(map, current)
+            for _, neighbor in ipairs(neighbors) do
+                if not closed[cantor(neighbor)] then
+                    local addedG = current.g + heuristic(current, neighbor)
+                    if not neighbor.g or addedG < neighbor.g then
+                        neighbor.g = addedG
+                        if not neighbor.h then
+                            neighbor.h = heuristic(neighbor, finish)
+                        end
+                        neighbor.f = addedG + neighbor.h
+                        open:push(neighbor)
+                        neighbor.prev = current
                     end
-                    neighbor.f = addedG + neighbor.h
-                    open:push(neighbor)
-                    neighbor.prev = current
                 end
             end
         end
