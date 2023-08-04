@@ -1,15 +1,15 @@
 Class = require("libs/class")
 require("src/entities/character")
 
-PlayerCharacter = Class{
+PC = Class{
     __includes = Character
 }
 
-function PlayerCharacter:init(defs)
+function PC:init(defs)
     Character.init(self, defs)
 end
 
-function PlayerCharacter:takeTurn()
+function PC:takeTurn()
     if love.keyboard.isPressed("kp7") then
         return self:tryMove(-1, -1)
     elseif love.keyboard.isPressed("kp9") then
