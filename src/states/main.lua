@@ -7,6 +7,10 @@ require("src/ui/log")
 
 mainState = {}
 
+gPlayer = {}
+gMap = {}
+gObjects = {}
+
 function mainState:init()
 end
 
@@ -57,6 +61,11 @@ function mainState:update(dt)
                 Log.log("\nYou die!")
             end
         end
+
+        if love.keyboard.isPressed("a") then
+            gMap:exploreAll()
+        end
+
         gAnimation.update(dt)
     end
 end

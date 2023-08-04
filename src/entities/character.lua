@@ -37,6 +37,30 @@ function Character:tryMove(dx, dy)
     return false
 end
 
+function Character:tryAttack(dx, dy)
+    local target = getObjectAt(self.tileX + dx, self.tileY + dy)
+    if target then
+        self:attack(target)
+        return true
+    else
+        return false
+    end
+end
+
+function Character:tryMoveOrAttack(dx, dy)
+    if self:tryMove(dx, dy) then
+        return true
+    end
+    return self:tryAttack(dx, dy)
+end
+
+function getObjectAt(x, y)
+    for objectId, object in pairs(gObjects) do
+        if object.tileX == x and object.tileY == y then
+            return object
+        end
+    end
+end
 
 function Character:moveTowards(x, y)
     local path = astar(gMap, self.tileX, self.tileY, x, y)
