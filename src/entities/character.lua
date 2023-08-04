@@ -1,5 +1,6 @@
 Class = require("libs/class")
 require("src/utils")
+require("src/algorithms/astar")
 require("src/entities/sprite")
 
 Character = Class{}
@@ -34,14 +35,10 @@ end
 
 
 function Character:moveTowards(x, y)
-    local dx = x - self.tileX
-    local dy = y - self.tileY
-    local distance = math.sqrt(dx^2 + dy^2)
-    
-    dx = math.round(dx / distance)
-    dy = math.round(dy / distance)
-
-    self:tryMove(dx, dy)
+    local path = astar(gMap, self.tileX, self.tileY, x, y)
+    if path and #path > 1 then
+        self:tryMove(path[2].x - self.tileX, path[2].y - self.tileY)
+    end
 end
 
 function Character:moveAwayFrom(x, y)
