@@ -4,6 +4,7 @@ Tile = Class{}
 
 
 function Tile:init(id)
+    self.name = id
     self.tileDef = db.tiles[id]
     self.visible = false
     self.explored = false
