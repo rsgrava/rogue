@@ -26,6 +26,8 @@ function PlayerCharacter:takeTurn()
         return self:tryMove(-1, 0)
     elseif love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
         return self:tryMove(1, 0)
+    elseif love.keyboard.isPressed("kp5") then
+        return true
     end
     return false
 end
