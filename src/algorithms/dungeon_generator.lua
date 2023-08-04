@@ -1,6 +1,6 @@
 Class = require("libs/class")
 require("src/entities/map")
-require("src/entities/enemy")
+require("src/entities/npc")
 
 Room = Class{}
 
@@ -91,7 +91,7 @@ function placeEnemies(map, room, objects)
         local x = math.random(room.x1 + 1, room.x2 - 1)
         local y = math.random(room.y1 + 1, room.y2 - 1)
         if not isBlocked(map, objects, x, y) then
-            table.insert(objects, Enemy({ id = "rat", tileX = x, tileY = y }))
+            table.insert(objects, NPC({ id = "rat", tileX = x, tileY = y }))
         end
     end
 end

@@ -1,8 +1,8 @@
 Camera = require("libs/camera")
 require("src/algorithms/dungeon_generator")
 require("src/algorithms/fov")
-require("src/algorithms/global_animation")
-require("src/entities/player_character")
+require("src/algorithms/animation")
+require("src/entities/pc")
 require("src/ui/log")
 
 mainState = {}
@@ -21,7 +21,7 @@ function mainState:enter()
         maxSize = 10
     })
 
-    gPlayer = PlayerCharacter({
+    gPlayer = PC({
         id = "player",
         tileX = startX,
         tileY = startY
@@ -57,7 +57,7 @@ function mainState:update(dt)
                 Log.log("\nYou die!")
             end
         end
-        GlobalAnimation.update(dt)
+        gAnimation.update(dt)
     end
 end
 

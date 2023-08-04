@@ -1,4 +1,4 @@
-require("src/algorithms/global_animation")
+require("src/algorithms/animation")
 
 Sprite = Class{}
 
@@ -11,7 +11,7 @@ end
 
 function Sprite:draw(x, y)
     local texture = self.texture1
-    if GlobalAnimation.frame == 2 and self.texture2 ~= nil then
+    if gAnimation.frame == 2 and self.texture2 ~= nil then
         texture = self.texture2
     end
 
