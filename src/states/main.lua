@@ -3,6 +3,7 @@ require("src/algorithms/dungeon_generator")
 require("src/algorithms/fov")
 require("src/algorithms/global_animation")
 require("src/entities/player_character")
+require("src/ui/log")
 
 mainState = {}
 
@@ -37,15 +38,27 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
-    if gPlayer:takeTurn() then
-        for objectId, object in pairs(gObjects) do
-            object:takeTurn()
-        end
-        computeFOV(gMap, gPlayer.tileX, gPlayer.tileY, VIEW_RADIUS)
-        self:centerCamera()
-    end
+    if not gPlayer.dead then
+        if gPlayer:takeTurn() then
+            for objectId, object in pairs(gObjects) do
+                object:takeTurn()
+            end
+            computeFOV(gMap, gPlayer.tileX, gPlayer.tileY, VIEW_RADIUS)
+            self:centerCamera()
 
-    GlobalAnimation.update(dt)
+            local removal = {}
+            for objectId, object in pairs(gObjects) do
+                if object.dead then
+                    table.remove(gObjects, objectId)
+                end
+            end
+
+            if gPlayer.dead then
+                Log.log("\nYou die!")
+            end
+        end
+        GlobalAnimation.update(dt)
+    end
 end
 
 function mainState:draw()
@@ -56,6 +69,7 @@ function mainState:draw()
             object:draw()
         end
     self.camera:detach()
+    Log.draw()
 end
 
 function mainState:centerCamera()

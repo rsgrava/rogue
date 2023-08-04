@@ -9,4 +9,5 @@ function Enemy:init(defs)
     Character.init(self, defs)
     local def = db.characters[defs.id]
     self.takeTurn = def.ai
+    self.state = "init"
 end
