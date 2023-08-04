@@ -22,7 +22,7 @@ local function getNeighbors(map, node)
     for i = 1, #adj do
         local x = node.x + adj[i][1]
         local y = node.y + adj[i][2]
-        if map:canWalk(x, y) then
+        if not map:isBlocked(x, y) then
             table.insert(neighbors, { x = x, y = y })
         end
     end
@@ -34,7 +34,7 @@ function cantor(node)
 end
 
 function astar(map, fromX, fromY, toX, toY)
-    if not map:canWalk(toX, toY) then
+    if map:isBlocked(toX, toY) then
         return nil
     end
 
