@@ -1,2 +1,4 @@
 assets/
 db/
+build/
+love.exe
