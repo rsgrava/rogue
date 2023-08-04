@@ -1,4 +1,5 @@
 Class = require("libs/class")
+require("src/utils")
 require("src/entities/map")
 require("src/entities/npc")
 
@@ -63,6 +64,8 @@ function generateDungeon(defs)
         end
     end
 
+    shapeWalls(map)
+
     return map, objects, startX, startY
 end
 
@@ -108,4 +111,89 @@ function isBlocked(map, objects, x, y)
     end
 
     return false
+end
+
+function shapeWalls(map)
+    for y = 0, map.height - 1 do
+        for x = 0, map.width - 1 do
+            if string.startsWith(map:getName(x, y), "wall") then
+                -- checking for adjacent walls
+                local top_left = not ((x - 1 > 0) and (y - 1 > 0)) or string.startsWith(map:getName(x - 1, y - 1), "wall")
+                local top = not (y - 1 > 0) or string.startsWith(map:getName(x, y - 1), "wall")
+                local top_right = not((x + 1 < map.width) and (y - 1 > 0)) or string.startsWith(map:getName(x + 1, y - 1), "wall")
+                local left = not (x - 1 > 0) or string.startsWith(map:getName(x - 1, y), "wall")
+                local right = not (x + 1 < map.width) or string.startsWith(map:getName(x + 1, y), "wall")
+                local bottom_left = not ((x - 1 > 0) and (y + 1 < map.height)) or string.startsWith(map:getName(x - 1, y + 1), "wall")
+                local bottom = not (y + 1 < map.height) or string.startsWith(map:getName(x, y + 1), "wall")
+                local bottom_right = not (x + 1 < map.width) or (y + 1 < map.height) and string.startsWith(map:getName(x + 1, y + 1), "wall")
+
+                -- one way corners
+                if top and not bottom and not left and not right then
+                    map:setTile("wall_c", x, y)
+                elseif bottom and not top and not left and not right then
+                    map:setTile("wall_l", x, y)
+                elseif not bottom and not top then
+                    map:setTile("wall_t", x, y)
+
+                -- outward corners
+                elseif right and bottom and not left and not top then
+                    map:setTile("wall_tl", x, y)
+                elseif left and bottom and not right and not top then
+                    map:setTile("wall_tr", x, y)
+                elseif top and right and not bottom and not left then
+                    map:setTile("wall_bl", x, y)
+                elseif top and left and not bottom and not right then
+                    map:setTile("wall_br", x, y)
+
+                -- inward corners
+                elseif bottom and right and not bottom_right then
+                    map:setTile("wall_tl", x, y)
+                elseif bottom and left and not bottom_left then
+                    map:setTile("wall_tr", x, y)
+                elseif top and right and not top_right then
+                    map:setTile("wall_bl", x, y)
+                elseif top and left and not top_left then
+                    map:setTile("wall_br", x, y)
+
+                -- left/right and top/bottom walls
+                elseif left and right and (not top or not bottom) then
+                    map:setTile("wall_t", x, y)
+                elseif top and bottom and (not left or not right) then
+                    map:setTile("wall_l", x, y)
+                end
+            end
+        end
+    end
+
+    for y = 0, map.height - 1 do
+        for x = 0, map.width - 1 do
+            if string.startsWith(map:getName(x, y), "wall_") then
+                -- checking for adjacent edge walls
+                local top_left = (x - 1 > 0) and (y - 1 > 0) and string.startsWith(map:getName(x - 1, y - 1), "wall_")
+                local top = (y - 1 > 0) and string.startsWith(map:getName(x, y - 1), "wall_")
+                local top_right = (x + 1 < map.width) and (y - 1 > 0) and string.startsWith(map:getName(x + 1, y - 1), "wall_")
+                local left = (x - 1 > 0) and string.startsWith(map:getName(x - 1, y), "wall_")
+                local right = (x + 1 < map.width) and string.startsWith(map:getName(x + 1, y), "wall_")
+                local bottom_left = (x - 1 > 0) and (y + 1 < map.height) and string.startsWith(map:getName(x - 1, y + 1), "wall_")
+                local bottom = (y + 1 < map.height) and string.startsWith(map:getName(x, y + 1), "wall_")
+                local bottom_right = (x + 1 < map.width) and (y + 1 < map.height) and string.startsWith(map:getName(x + 1, y + 1), "wall_")
+
+                -- three ways
+                if not left and top and bottom and right and not bottom_right and not top_right then
+                    map:setTile("wall_tw_l", x, y)
+                elseif not right and top and bottom and left and not bottom_left and not top_left then
+                    map:setTile("wall_tw_r", x, y)
+                elseif not top and bottom and left and right and not bottom_left and not bottom_right then
+                    map:setTile("wall_tw_t", x, y)
+                elseif not bottom and top and left and right and not top_left and not top_right then
+                    map:setTile("wall_tw_b", x, y)
+
+                -- four ways
+                elseif top and bottom and left and right and
+                    not bottom_left and not bottom_right and not top_left and not top_right then
+                    map:setTile("wall_fw", x, y)
+                end
+            end
+        end
+    end
 end
