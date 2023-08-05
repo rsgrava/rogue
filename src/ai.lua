@@ -3,15 +3,15 @@ function attackPlayer(self)
         self.state = "wander"
     end
 
-    if gMap:isVisible(self.tileX, self.tileY) then
+    if Game.map:isVisible(self.tileX, self.tileY) then
         self.state = "attack"
     end
 
     if self.state == "attack" then
-        if self:distanceTo(gPlayer.tileX, gPlayer.tileY) < 2 then
-            self:attack(gPlayer)
+        if self:distanceTo(Game.player.tileX, Game.player.tileY) < 2 then
+            self:attack(Game.player)
         else
-            self:moveTowards(gPlayer.tileX, gPlayer.tileY)
+            self:moveTowards(Game.player.tileX, Game.player.tileY)
         end
     elseif self.state == "wander" then
         wander(self)

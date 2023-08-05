@@ -23,13 +23,13 @@ function Character:init(defs)
 end
 
 function Character:draw()
-    if gMap:isVisible(self.tileX, self.tileY) then
+    if Game.map:isVisible(self.tileX, self.tileY) then
         self.sprite:draw(self.tileX * TILE_W, self.tileY * TILE_H)
     end
 end
 
 function Character:tryMove(dx, dy)
-    if not gMap:isBlocked(self.tileX + dx, self.tileY + dy) then
+    if not Game.isBlocked(self.tileX + dx, self.tileY + dy) then
         self.tileX = self.tileX + dx
         self.tileY = self.tileY + dy
         return true
@@ -38,7 +38,7 @@ function Character:tryMove(dx, dy)
 end
 
 function Character:tryAttack(dx, dy)
-    local target = getObjectAt(self.tileX + dx, self.tileY + dy)
+    local target = Game.characters:getAt(self.tileX + dx, self.tileY + dy)
     if target then
         self:attack(target)
         return true
@@ -54,16 +54,8 @@ function Character:tryMoveOrAttack(dx, dy)
     return self:tryAttack(dx, dy)
 end
 
-function getObjectAt(x, y)
-    for objectId, object in pairs(gObjects) do
-        if object.tileX == x and object.tileY == y then
-            return object
-        end
-    end
-end
-
 function Character:moveTowards(x, y)
-    local path = astar(gMap, self.tileX, self.tileY, x, y)
+    local path = astar(Game.map, self.tileX, self.tileY, x, y)
     if path and #path > 1 then
         self:tryMove(path[2].x - self.tileX, path[2].y - self.tileY)
     else

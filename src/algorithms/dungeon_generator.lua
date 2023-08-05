@@ -23,7 +23,7 @@ end
 
 function generateDungeon(defs)
     local map = Map({ width = defs.width, height = defs.height })
-    local objects = {}
+    local characters = {}
     local startX, startY = 0
 
     local rooms = {}
@@ -45,7 +45,7 @@ function generateDungeon(defs)
         
         if not failed then
             createRoom(map, newRoom)
-            placeEnemies(map, newRoom, objects)
+            placeEnemies(map, newRoom, characters)
             local newX, newY = newRoom:center()
             if #rooms == 0 then
                 startX = newX
@@ -66,7 +66,7 @@ function generateDungeon(defs)
 
     shapeWalls(map)
 
-    return map, objects, startX, startY
+    return map, characters, startX, startY
 end
 
 function createRoom(map, room)
@@ -89,23 +89,23 @@ function createVTunnel(map, x, y1, y2)
     end
 end
 
-function placeEnemies(map, room, objects)
+function placeEnemies(map, room, characters)
     for i = 0, 2 do
         local x = math.random(room.x1 + 1, room.x2 - 1)
         local y = math.random(room.y1 + 1, room.y2 - 1)
-        if not isBlocked(map, objects, x, y) then
-            table.insert(objects, NPC({ id = "rat", tileX = x, tileY = y }))
+        if not isBlocked(map, characters, x, y) then
+            table.insert(characters, NPC({ id = "rat", tileX = x, tileY = y }))
         end
     end
 end
 
-function isBlocked(map, objects, x, y)
+function isBlocked(map, characters, x, y)
     if not map:canWalk(x, y) then
         return true
     end
 
-    for objectId, object in pairs(objects) do
-        if object.blocks and object.tileX == x and object.tileY == y  then
+    for characterId, character in pairs(characters) do
+        if character.blocks and character.tileX == x and character.tileY == y  then
             return true
         end
     end

@@ -3,36 +3,19 @@ require("src/algorithms/dungeon_generator")
 require("src/algorithms/fov")
 require("src/algorithms/animation")
 require("src/entities/pc")
+require("src/entities/game_manager")
 require("src/ui/log")
 
 mainState = {}
-
-gPlayer = {}
-gMap = {}
-gObjects = {}
 
 function mainState:init()
 end
 
 function mainState:enter()
+    Game.init()
     self.camera = Camera()
-    gMap, gObjects, startX, startY = generateDungeon({
-        width = 100,
-        height = 100,
-        minRooms = 20,
-        maxRooms = 30,
-        minSize = 6,
-        maxSize = 10
-    })
-
-    gPlayer = PC({
-        id = "player",
-        tileX = startX,
-        tileY = startY
-    })
-
     self:centerCamera()
-    computeFOV(gMap, gPlayer.tileX, gPlayer.tileY, VIEW_RADIUS)
+    computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
 end
 
 function mainState:leave()
@@ -42,28 +25,20 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
-    if not gPlayer.dead then
-        if gPlayer:takeTurn() then
-            for objectId, object in pairs(gObjects) do
-                object:takeTurn()
-            end
-            computeFOV(gMap, gPlayer.tileX, gPlayer.tileY, VIEW_RADIUS)
+    if not Game.player.dead then
+        if Game.player:takeTurn() then
+            Game.characters:takeTurns()
+            computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
             self:centerCamera()
+            Game.characters:clearDead()
 
-            local removal = {}
-            for objectId, object in pairs(gObjects) do
-                if object.dead then
-                    table.remove(gObjects, objectId)
-                end
-            end
-
-            if gPlayer.dead then
+            if Game.player.dead then
                 Log.log("\nYou die!")
             end
         end
 
         if love.keyboard.isPressed("a") then
-            gMap:exploreAll()
+            Game.map:exploreAll()
         end
 
         gAnimation.update(dt)
@@ -72,20 +47,19 @@ end
 
 function mainState:draw()
     self.camera:attach()
-        gMap:draw()
-        gPlayer:draw()
-        for objectId, object in pairs(gObjects) do
-            object:draw()
-        end
+        Game.map:draw()
+        Game.objects:draw()
+        Game.characters:draw()
+        Game.player:draw()
     self.camera:detach()
     Log.draw()
 end
 
 function mainState:centerCamera()
-    local camX = gPlayer.tileX * TILE_W + (TILE_W - GAME_W) / 2
-    local camY = gPlayer.tileY * TILE_H + (TILE_H - GAME_H) / 2
-    local mapWidth = gMap.width * TILE_W
-    local mapHeight = gMap.height * TILE_W
+    local camX = Game.player.tileX * TILE_W + (TILE_W - GAME_W) / 2
+    local camY = Game.player.tileY * TILE_H + (TILE_H - GAME_H) / 2
+    local mapWidth = Game.map.width * TILE_W
+    local mapHeight = Game.map.height * TILE_W
 
     if camX < 0 then
         camX = 0

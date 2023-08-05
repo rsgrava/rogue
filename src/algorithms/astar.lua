@@ -16,12 +16,12 @@ local adj = {
     { -1, -1 },
 }
 
-local function getNeighbors(map, node)
+local function getNeighbors(node)
     local neighbors = {}
     for i = 1, #adj do
         local x = node.x + adj[i][1]
         local y = node.y + adj[i][2]
-        if not map:isBlocked(x, y) then
+        if not Game.isBlocked(x, y) then
             table.insert(neighbors, { x = x, y = y })
         end
     end
@@ -29,7 +29,7 @@ local function getNeighbors(map, node)
 end
 
 function astar(map, fromX, fromY, toX, toY)
-    if map:isBlocked(toX, toY) then
+    if Game.isBlocked(toX, toY) then
         return nil
     end
 
@@ -62,7 +62,7 @@ function astar(map, fromX, fromY, toX, toY)
 
             closed[cantor(current)] = true
 
-            local neighbors = getNeighbors(map, current)
+            local neighbors = getNeighbors(current)
             for _, neighbor in ipairs(neighbors) do
                 if not closed[cantor(neighbor)] then
                     local addedG = current.g + heuristic(current, neighbor)
