@@ -1,8 +1,7 @@
 require("src/algorithms/bheap")
+require("src/utils")
 
 local function heuristic(node1, node2)
-    -- chebyshev
-    --return math.max(math.abs(node1.x-node2.x), math.abs(node1.y-node2.y))
     return math.sqrt((node1.x-node2.x)^2 + (node1.y-node2.y)^2)
 end
 
@@ -27,10 +26,6 @@ local function getNeighbors(map, node)
         end
     end
     return neighbors
-end
-
-function cantor(node)
-    return (node.x + node.y) * (node.x + node.y + 1) / 2 + node.y
 end
 
 function astar(map, fromX, fromY, toX, toY)
