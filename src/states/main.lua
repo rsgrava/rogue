@@ -1,5 +1,4 @@
 Camera = require("libs/camera")
-require("src/algorithms/dungeon_generator")
 require("src/algorithms/fov")
 require("src/algorithms/animation")
 require("src/entities/pc")

@@ -21,7 +21,7 @@ function Room:center()
     return math.floor((self.x1 + self.x2) / 2), math.floor((self.y1 + self.y2) / 2)
 end
 
-function generateDungeon(defs)
+function generateSimpleDungeon(defs)
     local map = Map({ width = defs.width, height = defs.height })
     local characters = {}
     local startX, startY = 0

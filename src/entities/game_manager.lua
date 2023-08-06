@@ -1,3 +1,4 @@
+require("src/algorithms/dungeon_generation/simple")
 require("src/entities/character_manager")
 require("src/entities/object_manager")
 
@@ -5,7 +6,7 @@ Game = {}
 
 function Game.init()
     local characters, startX, startY
-    Game.map, characters, startX, startY = generateDungeon({
+    Game.map, characters, startX, startY = generateSimpleDungeon({
         width = 100,
         height = 100,
         minRooms = 20,
