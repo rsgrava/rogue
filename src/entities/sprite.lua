@@ -1,5 +1,3 @@
-require("src/algorithms/animation")
-
 Sprite = Class{}
 
 function Sprite:init(defs)
@@ -11,7 +9,7 @@ end
 
 function Sprite:draw(x, y)
     local texture = self.texture1
-    if gAnimation.frame == 2 and self.texture2 ~= nil then
+    if Game.animation.frame == 2 and self.texture2 ~= nil then
         texture = self.texture2
     end
 

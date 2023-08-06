@@ -1,5 +1,6 @@
 require("src/algorithms/dungeon_generation/simple")
 require("src/algorithms/dungeon_generation/bsp")
+require("src/entities/animation_manager")
 require("src/entities/character_manager")
 require("src/entities/object_manager")
 
@@ -26,6 +27,8 @@ function Game.init()
         tileX = startX,
         tileY = startY
     })
+
+    Game.animation = AnimationManager()
 end
 
 function Game.isBlocked(x, y)
@@ -33,4 +36,8 @@ function Game.isBlocked(x, y)
         return true
     end
     return Game.characters:isBlocked(x, y)
+end
+
+function Game.update(dt)
+    Game.animation:update(dt)
 end
