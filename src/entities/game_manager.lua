@@ -1,4 +1,5 @@
 require("src/algorithms/dungeon_generation/simple")
+require("src/algorithms/dungeon_generation/bsp")
 require("src/entities/character_manager")
 require("src/entities/object_manager")
 
@@ -6,13 +7,14 @@ Game = {}
 
 function Game.init()
     local characters, startX, startY
-    Game.map, characters, startX, startY = generateSimpleDungeon({
-        width = 100,
-        height = 100,
-        minRooms = 20,
-        maxRooms = 30,
-        minSize = 6,
-        maxSize = 10
+
+    Game.map, characters, startX, startY = generateBSPDungeon({
+        mapWidth = 85,
+        mapHeight = 40,
+        minWidth = 8,
+        minHeight = 8,
+        depth = 5,
+        fullRooms = false
     })
 
     Game.objects = ObjectManager()
