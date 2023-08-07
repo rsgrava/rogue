@@ -55,6 +55,5 @@ function Game.draw(dt)
     Game.map:draw()
     Game.objects:draw()
     Game.characters:draw()
-    Game.objects:draw()
     Game.player:draw()
 end
