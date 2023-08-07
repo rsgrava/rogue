@@ -29,6 +29,8 @@ function PC:takeTurn()
         action = self:tryMoveOrAttack(1, 0)
     elseif love.keyboard.isPressed("kp5") then
         action = "wait"
+    elseif love.keyboard.isPressed("g") then
+        action = self:pickUpItem() and "pick_up" or nil
     end
 
     if action ~= nil then

@@ -19,7 +19,13 @@ function ObjectManager:draw()
 end
 
 function ObjectManager:insert(item, x, y)
-    self.objects[cantor(x, y)] = item
+    local hash = cantor(x, y)
+    local objList = self.objects[hash]
+    if objList == nil then
+        objList = {}
+        self.objects[hash] = objList
+    end
+    table.insert(objList, item)
 end
 
 function ObjectManager:insertList(list)
@@ -29,10 +35,15 @@ function ObjectManager:insertList(list)
 end
 
 function ObjectManager:remove(item)
-    for objectId, object in pairs(self.objects) do
-        if item == object then
-            table.remove(self.objects, objectId)
-            break
+    for objectGroupId, objectGroup in pairs(self.objects) do
+        for objectId, object in pairs(objectGroup) do
+            if item == object then
+                table.remove(objectGroup, objectId)
+                if #objectGroup == 0 then
+                    table.remove(self.objects, objectGroup)
+                end
+                break
+            end
         end
     end
 end

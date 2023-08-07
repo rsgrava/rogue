@@ -5,6 +5,7 @@ Item = Class{}
 
 function Item:init(id)
     local def = db.items[id]
+    self.name = def.name
     self.sprite = Sprite({
         texture1 = def.texture,
         quadX = def.quadX,

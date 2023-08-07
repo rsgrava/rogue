@@ -32,6 +32,9 @@ function mainState:update(dt)
     if love.keyboard.isPressed("b") then
         Game.scheduler:print()
     end
+    if love.keyboard.isPressed("c") then
+        Game.player.inv:print()
+    end
 end
 
 function mainState:draw()

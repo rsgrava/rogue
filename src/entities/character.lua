@@ -1,6 +1,7 @@
 Class = require("libs/class")
 require("src/utils")
 require("src/algorithms/astar")
+require("src/entities/inventory")
 require("src/entities/sprite")
 
 Character = Class{}
@@ -21,6 +22,8 @@ function Character:init(defs)
     self.hp = def.hp
     self.atk = def.atk
     self.speed = def.speed
+
+    self.inv = Inventory()
 end
 
 function Character:draw()
@@ -85,6 +88,16 @@ end
 
 function Character:distanceTo(x, y)
     return math.sqrt((x - self.tileX)^2 + (y - self.tileY)^2)
+end
+
+function Character:pickUpItem()
+    local items = Game.objects:getAt(self.tileX, self.tileY)
+    if items then
+        self.inv:insert(items[1])
+        Game.objects:remove(items[1])
+        return true
+    end
+    return false
 end
 
 function Character:attack(target)
