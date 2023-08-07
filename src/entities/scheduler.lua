@@ -19,7 +19,6 @@ function Scheduler:remove(item)
         if actor.actor == item then
             table.remove(self.schedule, actorId)
             self.shouldSort = true
-            print("REMOVEU")
             break
         end
     end

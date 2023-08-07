@@ -8,9 +8,9 @@ require("src/entities/scheduler")
 Game = {}
 
 function Game.init()
-    local characters, startX, startY
+    local characters, objects, startX, startY
 
-    Game.map, characters, startX, startY = generateBSPDungeon({
+    Game.map, characters, objects, startX, startY = generateBSPDungeon({
         mapWidth = 85,
         mapHeight = 40,
         minWidth = 8,
@@ -26,9 +26,10 @@ function Game.init()
     })
 
     Game.scheduler = Scheduler()
-    Game.objects = ObjectManager()
     Game.characters = CharacterManager()
     Game.characters:insertList(characters)
+    Game.objects = ObjectManager()
+    Game.objects:insertList(objects)
 
     Game.animation = AnimationManager()
 end
@@ -48,4 +49,12 @@ end
 function Game.update(dt)
     Game.animation:update(dt)
     Game.scheduler:step()
+end
+
+function Game.draw(dt)
+    Game.map:draw()
+    Game.objects:draw()
+    Game.characters:draw()
+    Game.objects:draw()
+    Game.player:draw()
 end

@@ -36,10 +36,7 @@ end
 
 function mainState:draw()
     self.camera:attach()
-        Game.map:draw()
-        Game.objects:draw()
-        Game.characters:draw()
-        Game.player:draw()
+        Game.draw()
     self.camera:detach()
     Log.draw()
 end

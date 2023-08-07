@@ -9,14 +9,23 @@ end
 
 function ObjectManager:draw()
     for objectGroupId, objectGroup in pairs(self.objects) do
+        local x, y = inverseCantor(objectGroupId)
         for objectId, object in pairs(objectGroup) do
-            object:draw()
+            if Game.map:isVisible(x, y) then
+                object:draw(x * TILE_W, y * TILE_H)
+            end
         end
     end
 end
 
 function ObjectManager:insert(item, x, y)
-    table.insert(self.objects[cantor(x, y)], item)
+    self.objects[cantor(x, y)] = item
+end
+
+function ObjectManager:insertList(list)
+    for objectId, object in pairs(list) do
+        self:insert(object.object, object.x, object.y)
+    end
 end
 
 function ObjectManager:remove(item)

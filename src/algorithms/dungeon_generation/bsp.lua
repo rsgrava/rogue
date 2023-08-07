@@ -217,12 +217,14 @@ function generateBSPDungeon(defs)
     shapeWalls(map)
 
     local characters = {}
+    local objects = {}
     for roomId, room in pairs(rooms) do
         placeEnemies(map, room, characters)
+        placeObjects(map, room, objects)
     end
 
     local startRoom = table.random(rooms)
     local startX, startY = startRoom:center()
 
-    return map, characters, startX, startY
+    return map, characters, objects, startX, startY
 end

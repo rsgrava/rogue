@@ -1,3 +1,5 @@
+require("src/entities/item")
+
 Room = Class{}
 
 function Room:init(x, y, w, h)
@@ -83,11 +85,21 @@ function hlineRight(map, x, y)
 end
 
 function placeEnemies(map, room, characters)
-    for i = 0, 2 do
+    for i = 0, math.random(0, 2) do
         local x = math.random(room.x1 + 1, room.x2 - 1)
         local y = math.random(room.y1 + 1, room.y2 - 1)
         if not isBlocked(map, characters, x, y) then
             table.insert(characters, NPC({ id = "rat", tileX = x, tileY = y }))
+        end
+    end
+end
+
+function placeObjects(map, room, objects)
+    if math.random(0, 1) == 1 then
+        for i = 0, math.random(0, 1) do
+            local x = math.random(room.x1 + 1, room.x2 - 1)
+            local y = math.random(room.y1 + 1, room.y2 - 1)
+            table.insert(objects, { object = Item("dagger"), x = x, y = y })
         end
     end
 end
