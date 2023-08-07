@@ -15,7 +15,7 @@ function table.random(tbl)
     return tbl[keys[math.random(#keys)]]
 end
 
-function cantor(node)
-    return (node.x + node.y) * (node.x + node.y + 1) / 2 + node.y
+function cantor(x, y)
+    return (x + y) * (x + y + 1) / 2 + y
 end
 

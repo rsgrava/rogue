@@ -89,7 +89,6 @@ end
 
 function Character:attack(target)
     local dmg = self.atk
-    print(Game.scheduler.schedule[1].actor.name..Game.scheduler.schedule[1].energy)
     Log.log(self.name.." attacks "..target.name.." for "..dmg.." damage!")
     target:takeDamage(self.atk)
 end

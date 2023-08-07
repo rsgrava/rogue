@@ -10,7 +10,6 @@ function attackPlayer(self)
     if self.state == "attack" then
         if self:distanceTo(Game.player.tileX, Game.player.tileY) < 2 then
             self:attack(Game.player)
-            print("TA ATACANDO")
             return db.actions.attack
         else
             self:moveTowards(Game.player.tileX, Game.player.tileY)

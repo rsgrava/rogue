@@ -46,7 +46,7 @@ function astar(map, fromX, fromY, toX, toY)
 
     while not open:empty() do
         local current = open:pop()
-        if not closed[cantor(current)] then
+        if not closed[cantor(current.x, current.y)] then
             if current.x == finish.x and current.y == finish.y then
                 local path = {}
                 while true do
@@ -60,11 +60,11 @@ function astar(map, fromX, fromY, toX, toY)
                 end
             end
 
-            closed[cantor(current)] = true
+            closed[cantor(current.x, current.y)] = true
 
             local neighbors = getNeighbors(current)
             for _, neighbor in ipairs(neighbors) do
-                if not closed[cantor(neighbor)] then
+                if not closed[cantor(neighbor.x, neighbor.y)] then
                     local addedG = current.g + heuristic(current, neighbor)
                     if not neighbor.g or addedG < neighbor.g then
                         neighbor.g = addedG
