@@ -1,5 +1,5 @@
-require("src/algorithms/dungeon_generation/simple")
-require("src/algorithms/dungeon_generation/bsp")
+require("src/algorithms/procgen/simple")
+require("src/algorithms/procgen/bsp")
 require("src/entities/animation_manager")
 require("src/entities/character_manager")
 require("src/entities/object_manager")

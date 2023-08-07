@@ -1,6 +1,6 @@
 Class = require("libs/class")
 require("src/utils")
-require("src/algorithms/dungeon_generation/common")
+require("src/algorithms/procgen/common")
 require("src/entities/map")
 require("src/entities/npc")
 

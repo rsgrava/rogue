@@ -1,5 +1,5 @@
 Class = require("libs/class")
-require("src/algorithms/deque")
+require("src/data_structs/deque")
 require("src/entities/map")
 
 BSPNode = Class{}
