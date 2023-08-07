@@ -1,4 +1,4 @@
-require("src/algorithms/bheap")
+require("src/data_structs/bheap")
 require("src/utils")
 
 local function heuristic(node1, node2)
