@@ -21,11 +21,26 @@ function Map:draw()
     end
 end
 
+function Map:boundCheck(x, y)
+    if x < 0 or x >= self.width then
+        return false
+    elseif y < 0 or y >= self.height then
+        return false
+    end
+    return true
+end
+
 function Map:setTile(id, x, y)
+    if not self:boundCheck(x, y) then
+        return
+    end
     self.tiles[x + y * self.width + 1] = Tile(id)
 end
 
 function Map:reveal(x, y)
+    if not self:boundCheck(x, y) then
+        return
+    end
     self.tiles[x + y * self.width + 1].visible = true
     self.tiles[x + y * self.width + 1].explored = true
 end
@@ -43,25 +58,36 @@ function Map:exploreAll()
 end
 
 function Map:getName(x, y)
+    if not self:boundCheck(x, y) then
+        return ""
+    end
     return self.tiles[x + self.width * y + 1].name
 end
 
 function Map:canWalk(x, y)
+    if not self:boundCheck(x, y) then
+        return false
+    end
     return self.tiles[x + self.width * y + 1]:canWalk()
 end
 
 function Map:canFly(x, y)
+    if not self:boundCheck(x, y) then
+        return false
+    end
     return self.tiles[x + self.width * y + 1]:canFly()
 end
 
 function Map:isTransparent(x, y)
+    if not self:boundCheck(x, y) then
+        return false
+    end
     return self.tiles[x + self.width * y + 1]:isTransparent()
 end
 
 function Map:isVisible(x, y)
+    if not self:boundCheck(x, y) then
+        return false
+    end
     return self.tiles[x + self.width * y + 1].visible
-end
-
-function Map:isBlocked(x, y)
-    return isBlocked(self, gObjects, x, y)
 end
