@@ -218,7 +218,6 @@ function generateBSPDungeon(defs)
 
     local characters = {}
     for roomId, room in pairs(rooms) do
-        print(roomId)
         placeEnemies(map, room, characters)
     end
 

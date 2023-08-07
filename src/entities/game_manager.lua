@@ -3,6 +3,7 @@ require("src/algorithms/dungeon_generation/bsp")
 require("src/entities/animation_manager")
 require("src/entities/character_manager")
 require("src/entities/object_manager")
+require("src/entities/scheduler")
 
 Game = {}
 
@@ -18,17 +19,23 @@ function Game.init()
         fullRooms = false
     })
 
-    Game.objects = ObjectManager()
-    Game.characters = CharacterManager()
-    Game.characters:insertList(characters)
-
     Game.player = PC({
         id = "player",
         tileX = startX,
         tileY = startY
     })
 
+    Game.scheduler = Scheduler()
+    Game.objects = ObjectManager()
+    Game.characters = CharacterManager()
+    Game.characters:insertList(characters)
+
     Game.animation = AnimationManager()
+end
+
+function Game.removeCharacter(character)
+    Game.characters:remove(character)
+    Game.scheduler:remove(character)
 end
 
 function Game.isBlocked(x, y)
@@ -40,4 +47,5 @@ end
 
 function Game.update(dt)
     Game.animation:update(dt)
+    Game.scheduler:step()
 end

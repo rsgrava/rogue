@@ -15,6 +15,7 @@ end
 
 function CharacterManager:insert(item)
     table.insert(self.characters, item)
+    Game.scheduler:insert(item, 0)
 end
 
 function CharacterManager:insertList(list)
@@ -32,14 +33,6 @@ function CharacterManager:remove(item)
     end
 end
 
-function CharacterManager:clearDead()
-    for characterId, character in pairs(self.characters) do
-        if character.dead then
-            table.remove(self.characters, characterId)
-        end
-    end
-end
-
 function CharacterManager:getAt(x, y)
     for characterId, character in pairs(self.characters) do
         if character.tileX == x and character.tileY == y then
@@ -53,12 +46,5 @@ function CharacterManager:isBlocked(x, y)
         if character.tileX == x and character.tileY == y and character.blocks then
             return character
         end
-    end
-end
-
--- TODO: replace with scheduler
-function CharacterManager:takeTurns()
-    for characterId, character in pairs(self.characters) do
-        character:takeTurn()
     end
 end

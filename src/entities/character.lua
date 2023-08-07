@@ -20,6 +20,7 @@ function Character:init(defs)
 
     self.hp = def.hp
     self.atk = def.atk
+    self.speed = def.speed
 end
 
 function Character:draw()
@@ -49,9 +50,10 @@ end
 
 function Character:tryMoveOrAttack(dx, dy)
     if self:tryMove(dx, dy) then
-        return true
+        return "move"
     end
-    return self:tryAttack(dx, dy)
+    self:tryAttack(dx, dy)
+    return "attack"
 end
 
 function Character:moveTowards(x, y)
@@ -87,6 +89,7 @@ end
 
 function Character:attack(target)
     local dmg = self.atk
+    print(Game.scheduler.schedule[1].actor.name..Game.scheduler.schedule[1].energy)
     Log.log(self.name.." attacks "..target.name.." for "..dmg.." damage!")
     target:takeDamage(self.atk)
 end
@@ -100,5 +103,5 @@ end
 
 function Character:die()
     Log.log(self.name.." is minced!")
-    self.dead = true
+    Game.removeCharacter(self)
 end

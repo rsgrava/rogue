@@ -1,8 +1,7 @@
 Camera = require("libs/camera")
 require("src/algorithms/fov")
-require("src/algorithms/animation")
-require("src/entities/pc")
 require("src/entities/game_manager")
+require("src/entities/pc")
 require("src/ui/log")
 
 mainState = {}
@@ -24,23 +23,14 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
-    if not Game.player.dead then
-        if Game.player:takeTurn() then
-            Game.characters:takeTurns()
-            computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
-            self:centerCamera()
-            Game.characters:clearDead()
-
-            if Game.player.dead then
-                Log.log("\nYou die!")
-            end
-        end
-
-        if love.keyboard.isPressed("a") then
-            Game.map:exploreAll()
-        end
-
-        gAnimation.update(dt)
+    Game.update(dt)
+    computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
+    self:centerCamera()
+    if love.keyboard.isPressed("a") then
+        Game.map:exploreAll()
+    end
+    if love.keyboard.isPressed("b") then
+        Game.scheduler:print()
     end
 end
 
