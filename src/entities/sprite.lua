@@ -16,10 +16,10 @@ function Sprite:draw(x, y)
     love.graphics.draw(
         texture,
         self.quad,
-        x * TILE_SCALE,
-        y * TILE_SCALE,
+        x * tileScale,
+        y * tileScale,
         0,
-        TILE_SCALE,
-        TILE_SCALE
+        tileScale,
+        tileScale
     )
 end

@@ -19,16 +19,22 @@ function Tile:draw(x, y)
             self.tileDef.texture,
             love.graphics.newQuad(self.tileDef.tileX * TILE_W, self.tileDef.tileY * TILE_H,
                 TILE_W, TILE_H, self.tileDef.texture),
-            x * TILE_SCALE,
-            y * TILE_SCALE,
+            x * tileScale,
+            y * tileScale,
             0,
-            TILE_SCALE,
-            TILE_SCALE
+            tileScale,
+            tileScale
         )
         love.graphics.setColor(1, 1, 1)
     else
         love.graphics.setColor(0, 0, 0)
-        love.graphics.rectangle("fill", x * TILE_SCALE, y * TILE_SCALE, TILE_W - 1, TILE_H - 1)
+        love.graphics.rectangle(
+            "fill",
+            x * tileScale,
+            y * tileScale,
+            TILE_W - 1,
+            TILE_H - 1
+        )
         love.graphics.setColor(1, 1, 1)
     end
 end

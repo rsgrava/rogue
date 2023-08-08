@@ -24,6 +24,11 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
+    if love.mouse.wheelMoved() == "up" then
+        tileScale = math.min(tileScale + 1, 5)
+    elseif love.mouse.wheelMoved() == "down" then
+        tileScale = math.max(1, tileScale - 1)
+    end
     Game.update(dt)
     computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
     self:centerCamera()
@@ -45,10 +50,10 @@ function mainState:draw()
 end
 
 function mainState:centerCamera()
-    local camX = Game.player.tileX * TILE_W * TILE_SCALE + (TILE_W - GAME_W) / 2
-    local camY = Game.player.tileY * TILE_H * TILE_SCALE + (TILE_H - GAME_H) / 2
-    local mapWidth = Game.map.width * TILE_W * TILE_SCALE
-    local mapHeight = Game.map.height * TILE_W * TILE_SCALE
+    local camX = Game.player.tileX * TILE_W * tileScale + (TILE_W - GAME_W) / 2
+    local camY = Game.player.tileY * TILE_H * tileScale + (TILE_H - GAME_H) / 2
+    local mapWidth = Game.map.width * TILE_W * tileScale
+    local mapHeight = Game.map.height * TILE_W * tileScale
 
     if camX < 0 then
         camX = 0

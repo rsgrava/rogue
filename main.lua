@@ -20,6 +20,9 @@ function love.load()
 
     love.keyboard.pressed = {}
     love.keyboard.released = {}
+    love.mouse.wheel = ""
+
+    tileScale = TILE_SCALE
 
     math.randomseed(os.time())
 
@@ -32,6 +35,7 @@ function love.update(dt)
     UIManager.update(dt)
     love.keyboard.pressed = {}
     love.keyboard.released = {}
+    love.mouse.wheel = ""
 end
 
 function love.draw()
@@ -53,10 +57,22 @@ function love.keyreleased(key)
     love.keyboard.released[key] = true
 end
 
+function love.wheelmoved(x, y)
+    if y > 0 then
+        love.mouse.wheel = "up"
+    elseif y < 0 then
+        love.mouse.wheel = "down"
+    end
+end
+
 function love.keyboard.isPressed(key)
     return love.keyboard.pressed[key]
 end
 
 function love.keyboard.isReleased(key)
     return love.keyboard.released[key]
+end
+
+function love.mouse.wheelMoved()
+    return love.mouse.wheel
 end

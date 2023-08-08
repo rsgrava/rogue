@@ -42,7 +42,12 @@ function Window:draw()
             elseif y == self.h - 1 then
                 pos = "bottom"
             end
-            love.graphics.draw(assets.graphics.GUI.GUI0, self.quads[pos], self.x + x * TILE_W, self.y + y * TILE_H)
+            love.graphics.draw(
+                assets.graphics.GUI.GUI0,
+                self.quads[pos],
+                self.x + x * TILE_W,
+                self.y + y * TILE_H
+            )
         end
     end
 end
