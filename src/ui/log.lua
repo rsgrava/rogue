@@ -2,12 +2,12 @@ require("src/ui/window")
 
 Log = {
     text = "",
-    lines = { "", "", "" },
+    lines = { "", "", "", "" },
     window = Window({
         x = 0,
-        y = GAME_H - TILE_H * 4,
+        y = GAME_H - TILE_H * 5,
         w = GAME_W / TILE_W,
-        h = 4,
+        h = 5,
     })
 }
 
@@ -30,9 +30,14 @@ function Log.log(text)
 end
 
 function Log.draw()
+    width, height = love.graphics.getDimensions()
     Log.window:draw()
     local fontHeight = love.graphics.getFont():getHeight()
     for i = 1, #Log.lines do
-        love.graphics.print(Log.lines[i], Log.window.x + TILE_W / 2, Log.window.y + TILE_H / 4 + fontHeight * (i - 1))
+        love.graphics.print(
+            Log.lines[i],
+            Log.window.x + TILE_W / 2,
+            Log.window.y + TILE_H / 2 + fontHeight * (i - 1)
+        )
     end
 end

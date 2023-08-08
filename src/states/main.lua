@@ -14,6 +14,7 @@ function mainState:enter()
     self.camera = Camera()
     self:centerCamera()
     computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
+    UIManager.insert(Log)
 end
 
 function mainState:leave()
@@ -41,14 +42,13 @@ function mainState:draw()
     self.camera:attach()
         Game.draw()
     self.camera:detach()
-    Log.draw()
 end
 
 function mainState:centerCamera()
-    local camX = Game.player.tileX * TILE_W + (TILE_W - GAME_W) / 2
-    local camY = Game.player.tileY * TILE_H + (TILE_H - GAME_H) / 2
-    local mapWidth = Game.map.width * TILE_W
-    local mapHeight = Game.map.height * TILE_W
+    local camX = Game.player.tileX * TILE_W * TILE_SCALE + (TILE_W - GAME_W) / 2
+    local camY = Game.player.tileY * TILE_H * TILE_SCALE + (TILE_H - GAME_H) / 2
+    local mapWidth = Game.map.width * TILE_W * TILE_SCALE
+    local mapHeight = Game.map.height * TILE_W * TILE_SCALE
 
     if camX < 0 then
         camX = 0
