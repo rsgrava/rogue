@@ -16,7 +16,7 @@ function love.load()
     push:setupScreen(GAME_W, GAME_H, window_w, window_h,
                      {fullscreen = true, resizable = true, vsync = true})
 
-    love.graphics.setFont(assets.fonts.DFVan(16))
+    love.graphics.setFont(assets.fonts.VGA_437(16))
 
     love.keyboard.pressed = {}
     love.keyboard.released = {}

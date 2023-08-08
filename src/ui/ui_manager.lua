@@ -25,3 +25,7 @@ function UIManager.remove(item)
         end
     end
 end
+
+function UIManager.clear()
+    UIManager.widgets = {}
+end

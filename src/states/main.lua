@@ -3,6 +3,7 @@ require("src/algorithms/fov")
 require("src/entities/game_manager")
 require("src/entities/pc")
 require("src/ui/log")
+require("src/ui/overlay")
 
 mainState = {}
 
@@ -12,8 +13,10 @@ end
 function mainState:enter()
     Game.init()
     self.camera = Camera()
+    self.camera.smoother = Camera.smooth.linear(100)
     self:centerCamera()
     computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
+    UIManager.insert(Overlay)
     UIManager.insert(Log)
 end
 
@@ -24,6 +27,9 @@ function mainState:resume()
 end
 
 function mainState:update(dt)
+    if love.keyboard.isPressed("d") then
+        UIManager.clear()
+    end
     if love.mouse.wheelMoved() == "up" then
         tileScale = math.min(tileScale + 1, 5)
     elseif love.mouse.wheelMoved() == "down" then
@@ -50,10 +56,10 @@ function mainState:draw()
 end
 
 function mainState:centerCamera()
-    local camX = Game.player.tileX * TILE_W * tileScale + (TILE_W - GAME_W) / 2
-    local camY = Game.player.tileY * TILE_H * tileScale + (TILE_H - GAME_H) / 2
-    local mapWidth = Game.map.width * TILE_W * tileScale
-    local mapHeight = Game.map.height * TILE_W * tileScale
+    local camX = Game.player.tileX * TILE_W * tileScale + TILE_W / 2 * tileScale - (GAME_W / (TILE_W * tileScale) - BORDER_RIGHT - BORDER_LEFT) * TILE_W * tileScale / 2
+    local camY = Game.player.tileY * TILE_H * tileScale + TILE_H / 2 * tileScale - (GAME_H / (TILE_H * tileScale) - BORDER_BOTTOM - BORDER_TOP) * TILE_H * tileScale / 2
+    local mapWidth = (Game.map.width + BORDER_RIGHT + BORDER_LEFT) * TILE_W * tileScale 
+    local mapHeight = (Game.map.height + BORDER_BOTTOM + BORDER_TOP) * TILE_W * tileScale
 
     if camX < 0 then
         camX = 0

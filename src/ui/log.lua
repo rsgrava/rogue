@@ -2,12 +2,12 @@ require("src/ui/window")
 
 Log = {
     text = "",
-    lines = { "", "", "", "" },
+    lines = { "", "", "", "", "" },
     window = Window({
-        x = 0,
-        y = GAME_H - TILE_H * 5,
-        w = GAME_W / TILE_W,
-        h = 5,
+        x = FRAME_SCALE * TILE_W,
+        y = GAME_H - TILE_H * 12.5,
+            w = GAME_W / TILE_W - FRAME_SCALE * 9,
+        h = 12,
     })
 }
 
@@ -17,7 +17,7 @@ function Log.log(text)
     else
         Log.text = Log.text..' '..text
     end
-    local _, wrap = love.graphics.getFont():getWrap(Log.text, Log.window.w * TILE_W - TILE_W)
+    local _, wrap = love.graphics.getFont():getWrap(Log.text, ((Log.window.w - 1) * TILE_W) / FONT_SCALE)
     for i = 1, #Log.lines do
         local line = ""
         if #wrap <= #Log.lines then
@@ -37,7 +37,9 @@ function Log.draw()
         love.graphics.print(
             Log.lines[i],
             Log.window.x + TILE_W / 2,
-            Log.window.y + TILE_H / 2 + fontHeight * (i - 1)
+            Log.window.y + fontHeight + fontHeight * (i - 1) * FONT_SCALE,
+            0,
+            FONT_SCALE
         )
     end
 end

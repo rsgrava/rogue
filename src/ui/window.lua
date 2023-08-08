@@ -1,18 +1,32 @@
 Class = require("libs/class")
 
-Window = Class{
-    quads = {
-        top_left = love.graphics.newQuad( 1 * TILE_W, 7 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        top = love.graphics.newQuad( 2 * TILE_W, 7 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        top_right = love.graphics.newQuad( 3 * TILE_W, 7 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        left = love.graphics.newQuad( 1 * TILE_W, 8 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        middle = love.graphics.newQuad( 2 * TILE_W, 8 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        right = love.graphics.newQuad( 3 * TILE_W, 8 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        bottom_left = love.graphics.newQuad( 1 * TILE_W, 9 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        bottom = love.graphics.newQuad( 2 * TILE_W, 9 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-        bottom_right = love.graphics.newQuad( 3 * TILE_W, 9 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
-    }
+--[[
+WindowQuads = {
+    top_left = love.graphics.newQuad( 1 * TILE_W, 7 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    top = love.graphics.newQuad( 2 * TILE_W, 7 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    top_right = love.graphics.newQuad( 3 * TILE_W, 7 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    left = love.graphics.newQuad( 1 * TILE_W, 8 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    middle = love.graphics.newQuad( 2 * TILE_W, 8 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    right = love.graphics.newQuad( 3 * TILE_W, 8 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    bottom_left = love.graphics.newQuad( 1 * TILE_W, 9 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    bottom = love.graphics.newQuad( 2 * TILE_W, 9 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    bottom_right = love.graphics.newQuad( 3 * TILE_W, 9 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
 }
+]]
+
+WindowQuads = {
+    top_left = love.graphics.newQuad( 9 * TILE_W, 16 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    top = love.graphics.newQuad( 10 * TILE_W, 16 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    top_right = love.graphics.newQuad( 11 * TILE_W, 16 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    left = love.graphics.newQuad( 9 * TILE_W, 17 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    middle = love.graphics.newQuad( 10 * TILE_W, 17 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    right = love.graphics.newQuad( 11 * TILE_W, 17 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    bottom_left = love.graphics.newQuad( 9 * TILE_W, 18 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    bottom = love.graphics.newQuad( 10 * TILE_W, 18 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+    bottom_right = love.graphics.newQuad( 11 * TILE_W, 18 * TILE_H, TILE_W, TILE_H, assets.graphics.GUI.GUI0),
+}
+
+Window = Class{}
 
 function Window:init(defs)
     self.x = defs.x
@@ -44,7 +58,7 @@ function Window:draw()
             end
             love.graphics.draw(
                 assets.graphics.GUI.GUI0,
-                self.quads[pos],
+                WindowQuads[pos],
                 self.x + x * TILE_W,
                 self.y + y * TILE_H
             )
