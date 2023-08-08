@@ -7,6 +7,7 @@ require("libs/slam")
 
 require("src/constants")
 require("src/states/main")
+require("src/ui/ui_manager")
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -15,7 +16,7 @@ function love.load()
     push:setupScreen(GAME_W, GAME_H, window_w, window_h,
                      {fullscreen = true, resizable = true, vsync = true})
 
-    love.graphics.setFont(assets.fonts.DotFont(16))
+    love.graphics.setFont(assets.fonts.DFVan(16))
 
     love.keyboard.pressed = {}
     love.keyboard.released = {}
@@ -28,6 +29,7 @@ end
 function love.update(dt)
     love.window.setTitle(GAME_TITLE.." - "..love.timer.getFPS().." fps")
     Gamestate.current():update(dt)
+    UIManager.update(dt)
     love.keyboard.pressed = {}
     love.keyboard.released = {}
 end
@@ -35,6 +37,7 @@ end
 function love.draw()
     push:start()
         Gamestate.current():draw(dt)
+        UIManager.draw()
     push:finish()
 end
 
