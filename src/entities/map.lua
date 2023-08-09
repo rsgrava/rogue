@@ -7,7 +7,7 @@ function Map:init(defs)
     self.width = defs.width
     self.height = defs.height
     for y = 0, self.height - 1 do
-        for x = 0, self.width do
+        for x = 0, self.width - 1 do
             self.tiles[x + y * self.width + 1] = Tile("wall")
         end
     end

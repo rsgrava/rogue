@@ -18,6 +18,16 @@ function Inventory:remove(item)
     end
 end
 
+function Inventory:getType(itemType)
+    local items = {}
+    for itemId, item in pairs(self.inv) do
+        if item.type == itemType then
+            table.insert(items, item)
+        end
+    end
+    return items
+end    
+
 function Inventory:print()
     for itemId, item in pairs(self.inv) do
         print("ID: "..itemId.." Item: "..item.name)

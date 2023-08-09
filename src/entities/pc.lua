@@ -1,5 +1,6 @@
 Class = require("libs/class")
 require("src/entities/character")
+require("src/entities/pointer")
 
 PC = Class{
     __includes = Character
@@ -31,6 +32,9 @@ function PC:takeTurn()
         action = "wait"
     elseif love.keyboard.isPressed("g") then
         action = self:pickUpItem() and "pick_up" or nil
+    elseif love.keyboard.isPressed("l") then
+        Game.state = "look"
+        Game.lookPointer = Pointer(self.tileX, self.tileY)
     end
 
     if action ~= nil then
