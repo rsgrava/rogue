@@ -18,3 +18,10 @@ FONT_SCALE = 2
 GLOBAL_ANIMATION_TIMER = 0.5
 
 VIEW_RADIUS = 5
+
+COLORS = {
+    WHITE = { 1, 1, 1 },
+    BLACK = { 0, 0, 0 },
+    GRAY = { 0.5, 0.5, 0.5 },
+    LIGHT_GRAY = { 134 / 255, 150 / 255, 162 / 255 }
+}

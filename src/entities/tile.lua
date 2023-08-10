@@ -1,7 +1,7 @@
 Class = require("libs/class")
+require("src/constants")
 
 Tile = Class{}
-
 
 function Tile:init(id)
     self.name = id
@@ -13,7 +13,7 @@ end
 function Tile:draw(x, y)
     if self.explored then
         if not self.visible then
-            love.graphics.setColor(0.5, 0.5, 0.5)
+            love.graphics.setColor(COLORS.GRAY)
         end
         love.graphics.draw(
             self.tileDef.texture,
@@ -25,9 +25,9 @@ function Tile:draw(x, y)
             tileScale,
             tileScale
         )
-        love.graphics.setColor(1, 1, 1)
+        love.graphics.setColor(COLORS.WHITE)
     else
-        love.graphics.setColor(0, 0, 0)
+        love.graphics.setColor(COLORS.BLACK)
         love.graphics.rectangle(
             "fill",
             x * tileScale,
@@ -35,7 +35,7 @@ function Tile:draw(x, y)
             TILE_W - 1,
             TILE_H - 1
         )
-        love.graphics.setColor(1, 1, 1)
+        love.graphics.setColor(COLORS.WHITE)
     end
 end
 

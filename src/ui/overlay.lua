@@ -49,8 +49,7 @@ function Overlay:draw()
     )
 
     --frame
-    local r, g, b = love.math.colorFromBytes(134, 150, 162)
-    love.graphics.setColor(r, g, b)
+    love.graphics.setColor(COLORS.LIGHT_GRAY)
     love.graphics.setLineWidth(TILE_W / 2)
     love.graphics.rectangle(
         "line",
@@ -61,6 +60,6 @@ function Overlay:draw()
         FRAME_SCALE * TILE_W / 4,
         FRAME_SCALE * TILE_H / 4
     )
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(COLORS.WHITE)
     love.graphics.setLineWidth(1)
 end

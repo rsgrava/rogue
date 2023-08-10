@@ -14,8 +14,12 @@ function UIManager.draw()
     end
 end
 
-function UIManager.insert(item)
+function UIManager.push(item)
     table.insert(UIManager.widgets, item)
+end
+
+function UIManager.pop()
+    table.remove(UIManager.widgets, #UIManager.widgets)
 end
 
 function UIManager.remove(item)

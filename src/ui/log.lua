@@ -6,7 +6,7 @@ Log = {
     window = Window({
         x = FRAME_SCALE * TILE_W,
         y = GAME_H - TILE_H * 12.5,
-            w = GAME_W / TILE_W - FRAME_SCALE * 9,
+        w = GAME_W / TILE_W - FRAME_SCALE * 9,
         h = 12,
     })
 }

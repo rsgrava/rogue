@@ -1,6 +1,7 @@
 Class = require("libs/class")
 require("src/entities/character")
 require("src/entities/pointer")
+require("src/ui/inventory_screen")
 
 PC = Class{
     __includes = Character
@@ -35,6 +36,9 @@ function PC:takeTurn()
     elseif love.keyboard.isPressed("l") then
         Game.state = "look"
         Game.lookPointer = Pointer(self.tileX, self.tileY)
+    elseif love.keyboard.isPressed("i") then
+        Game.state = "inventory"
+        UIManager.push(InventoryScreen())
     end
 
     if action ~= nil then

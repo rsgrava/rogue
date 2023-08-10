@@ -3,33 +3,33 @@ Class = require("libs/class")
 Inventory = Class{}
 
 function Inventory:init()
-    self.inv = {}
+    self.items = {}
 end
 
 function Inventory:insert(item)
-    table.insert(self.inv, item)
+    table.insert(self.items, item)
 end
 
 function Inventory:remove(item)
-    for itemId, invItem in pairs(self.inv) do
+    for itemId, invItem in pairs(self.items) do
         if item == invItem then
-            table.remove(self.inv, itemId)
+            table.remove(self.items, itemId)
         end
     end
 end
 
 function Inventory:getType(itemType)
-    local items = {}
-    for itemId, item in pairs(self.inv) do
+    local typeItems = {}
+    for itemId, item in pairs(self.items) do
         if item.type == itemType then
-            table.insert(items, item)
+            table.insert(typeItems, item)
         end
     end
-    return items
+    return typeItems
 end    
 
 function Inventory:print()
-    for itemId, item in pairs(self.inv) do
+    for itemId, item in pairs(self.items) do
         print("ID: "..itemId.." Item: "..item.name)
     end
 end

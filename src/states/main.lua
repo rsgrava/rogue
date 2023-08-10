@@ -13,8 +13,8 @@ end
 function mainState:enter()
     Game.init()
     computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
-    UIManager.insert(Overlay)
-    UIManager.insert(Log)
+    UIManager.push(Overlay)
+    UIManager.push(Log)
 end
 
 function mainState:leave()
