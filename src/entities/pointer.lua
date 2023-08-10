@@ -39,8 +39,6 @@ function Pointer:draw()
         self.tileX * TILE_W * tileScale,
         self.tileY * TILE_H * tileScale,
         TILE_W * tileScale,
-        TILE_H * tileScale,
-        TILE_W * tileScale / 4,
-        TILE_H * tileScale / 4
+        TILE_H * tileScale
     )
 end
