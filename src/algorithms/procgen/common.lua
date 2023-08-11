@@ -99,7 +99,7 @@ function placeObjects(map, room, objects)
         for i = 0, math.random(0, 1) do
             local x = math.random(room.x1 + 1, room.x2 - 1)
             local y = math.random(room.y1 + 1, room.y2 - 1)
-            table.insert(objects, { object = Item("dagger"), x = x, y = y })
+            table.insert(objects, { object = Item(table.randomKey(db.items)), x = x, y = y })
         end
     end
 end

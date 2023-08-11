@@ -30,6 +30,14 @@ function table.random(tbl)
     return tbl[keys[math.random(#keys)]]
 end
 
+function table.randomKey(tbl)
+    local keys = {}
+    for key in pairs(tbl) do
+        table.insert(keys, key)
+    end
+    return keys[math.random(#keys)]
+end
+
 function cantor(x, y)
     return (x + y) * (x + y + 1) / 2 + y
 end

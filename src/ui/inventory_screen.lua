@@ -66,20 +66,26 @@ end
 function InventoryScreen:draw()
     self.window:draw()
     
-    local itemChar = "a"
+    local slotChar = "a"
     local i = 1
-    for itemId, item in pairs(self.pages[self.page]) do
-        item:draw(self.window.x / FRAME_SCALE + self.window.w / (2 * FRAME_SCALE) * (math.floor(i / 13)),
+    for slotId, slot in pairs(self.pages[self.page]) do
+        local itemName
+        if slot.count == 1 then
+            itemName = slot.item.def.singular
+        else
+            itemName = string.gsub(slot.item.def.plural, "%%d", tostring(slot.count))
+        end
+        slot.item:draw(self.window.x / FRAME_SCALE + self.window.w / (2 * FRAME_SCALE) * (math.floor(i / 13)),
                   self.window.y / FRAME_SCALE + (((i - 1) % 12) + 0.25) * TILE_H)
         love.graphics.print(
-            itemChar..")"..item.def.singular,
+            slotChar..")"..itemName,
             self.window.x + TILE_W * FRAME_SCALE + self.window.w / 2 * (math.floor(i / 13)),
             self.window.y + (((i - 1) % 12) + 0.5) * TILE_H * FRAME_SCALE,
             0,
             FONT_SCALE,
             FONT_SCALE
         )
-        itemChar = string.char(string.byte(itemChar) + 1)
+        slotChar = string.char(string.byte(slotChar) + 1)
         i = i + 1
     end
 
@@ -162,33 +168,33 @@ function InventoryScreen:draw()
 end
 
 function InventoryScreen:calculatePages()
-    local items
+    local slots
     if self.category == "all items" then
-        items = Game.player.inv.items
+        slots = Game.player.inv.slots
     elseif self.category == "equipment" then
         local amulets = Game.player.inv:getCategory("amulets")
         local weapons = Game.player.inv:getCategory("weapons")
         local armor = Game.player.inv:getCategory("armor")
         local rings = Game.player.inv:getCategory("rings")
-        items = table.cat(amulets, weapons)
-        items = table.cat(items, armor)
-        items = table.cat(items, rings)
+        slots = table.cat(amulets, weapons)
+        slots = table.cat(slots, armor)
+        slots = table.cat(slots, rings)
     elseif self.category == "edibles" then
-        items = Game.player.inv:getCategory("edibles")
+        slots = Game.player.inv:getCategory("edibles")
     elseif self.category == "drinkables" then
-        items = Game.player.inv:getCategory("drinkables")
+        slots = Game.player.inv:getCategory("drinkables")
     elseif self.category == "readables" then
         local books = Game.player.inv:getCategory("books")
         local spellbooks = Game.player.inv:getCategory("spellbooks")
         local scrolls = Game.player.inv:getCategory("scrolls")
-        items = table.cat(books, spellbooks)
-        items = table.cat(items, scrolls)
+        slots = table.cat(books, spellbooks)
+        slots = table.cat(slots, scrolls)
     elseif self.category == "wands" then
-        items = Game.player.inv:getCategory("wands")
+        slots = Game.player.inv:getCategory("wands")
     elseif self.category == "tools" then
-        items = Game.player.inv:getCategory("tools")
+        slots = Game.player.inv:getCategory("tools")
     elseif self.category == "misc" then
-        items = Game.player.inv:getCategory("misc")
+        slots = Game.player.inv:getCategory("misc")
     end
 
     categories = {
@@ -202,19 +208,19 @@ function InventoryScreen:calculatePages()
         "[M] Misc"
     }
 
-    local numPages = math.floor(#items / 24) + 1
-    local numLastItems = #items % 24
+    local numPages = math.floor(#slots / 24) + 1
+    local numLastItems = #slots % 24
     self.page = 1
     self.pages = {}
     for i = 1, numPages do
         self.pages[i] = {}
         if i == numPages then
             for j = 1, numLastItems do
-                table.insert(self.pages[i], items[(i - 1) * 24 + j])
+                table.insert(self.pages[i], slots[(i - 1) * 24 + j])
             end
         else
             for j = 1, 24 do
-                table.insert(self.pages[i], items[(i - 1) * 24 + j])
+                table.insert(self.pages[i], slots[(i - 1) * 24 + j])
             end
         end
     end
