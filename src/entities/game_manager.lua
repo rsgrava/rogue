@@ -51,6 +51,11 @@ end
 
 function Game.update(dt)
     if Game.state == "action" then
+        if love.mouse.wheelMoved() == "up" then
+            tileScale = math.min(tileScale + 1, 5)
+        elseif love.mouse.wheelMoved() == "down" then
+            tileScale = math.max(1, tileScale - 1)
+        end
         Game.animation:update(dt)
         Game.scheduler:step()
         Game.centerCamera(Game.player.tileX, Game.player.tileY)
@@ -58,25 +63,17 @@ function Game.update(dt)
             UIManager.push(DebugMenu())
             Game.state = "debug"
         end
-        if love.keyboard.isPressed("d") then
-            UIManager.clear()
+        if love.keyboard.isPressed("a") then
+            Game.map:exploreAll()
         end
+        computeFOV(Game.map, Game.player.tileX, Game.player.tileY, VIEW_RADIUS)
     elseif Game.state == "look" then
         Game.lookPointer:update()
         Game.centerCamera(Game.lookPointer.tileX, Game.lookPointer.tileY)
         if love.keyboard.isPressed("l") or love.keyboard.isPressed("escape") then
             Game.state = "action"
         end
-    elseif Game.state == "inventory" then
-        if love.keyboard.isPressed("escape") then
-            Game.state = "action"
-            UIManager.pop()
-        end
     elseif Game.state == "debug" then
-        if love.keyboard.isPressed("escape") then
-            UIManager.pop()
-            Game.state = "action"
-        end
     end
 end
 

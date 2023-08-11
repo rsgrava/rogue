@@ -4,12 +4,11 @@ require("src/entities/sprite")
 Item = Class{}
 
 function Item:init(id)
-    local def = db.items[id]
-    self.name = def.name
+    self.def = db.items[id]
     self.sprite = Sprite({
-        texture1 = def.texture,
-        quadX = def.quadX,
-        quadY = def.quadY
+        texture1 = self.def.texture,
+        quadX = self.def.quadX,
+        quadY = self.def.quadY
     })
 end
 

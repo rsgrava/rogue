@@ -18,14 +18,14 @@ function Inventory:remove(item)
     end
 end
 
-function Inventory:getType(itemType)
-    local typeItems = {}
+function Inventory:getCategory(category)
+    local items = {}
     for itemId, item in pairs(self.items) do
-        if item.type == itemType then
-            table.insert(typeItems, item)
+        if item.def.category == category then
+            table.insert(items, item)
         end
     end
-    return typeItems
+    return items
 end    
 
 function Inventory:print()

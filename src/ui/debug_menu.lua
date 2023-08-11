@@ -15,6 +15,11 @@ function DebugMenu:init()
 end
 
 function DebugMenu:update(dt)
+    if love.keyboard.isPressed("escape") or 
+       (love.keyboard.isPressed("'") and not self.input.firstUpdate) then
+        UIManager.pop()
+        Game.state = "action"
+    end
     self.input:update(dt)
 end
 
