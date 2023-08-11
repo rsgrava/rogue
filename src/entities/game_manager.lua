@@ -4,6 +4,7 @@ require("src/entities/animation_manager")
 require("src/entities/character_manager")
 require("src/entities/object_manager")
 require("src/entities/scheduler")
+require("src/ui/debug_menu")
 
 Game = {}
 
@@ -53,6 +54,13 @@ function Game.update(dt)
         Game.animation:update(dt)
         Game.scheduler:step()
         Game.centerCamera(Game.player.tileX, Game.player.tileY)
+        if love.keyboard.isPressed("'") then
+            UIManager.push(DebugMenu())
+            Game.state = "debug"
+        end
+        if love.keyboard.isPressed("d") then
+            UIManager.clear()
+        end
     elseif Game.state == "look" then
         Game.lookPointer:update()
         Game.centerCamera(Game.lookPointer.tileX, Game.lookPointer.tileY)
@@ -64,10 +72,11 @@ function Game.update(dt)
             Game.state = "action"
             UIManager.pop()
         end
-    end
-
-    if love.keyboard.isPressed("d") then
-        UIManager.clear()
+    elseif Game.state == "debug" then
+        if love.keyboard.isPressed("escape") then
+            UIManager.pop()
+            Game.state = "action"
+        end
     end
 end
 

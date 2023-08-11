@@ -6,8 +6,8 @@ Log = {
     window = Window({
         x = FRAME_SCALE * TILE_W,
         y = GAME_H - TILE_H * 12.5,
-        w = GAME_W / TILE_W - FRAME_SCALE * 9,
-        h = 12,
+        w = GAME_W - FRAME_SCALE * TILE_W * 9,
+        h = 12 * TILE_H,
     })
 }
 
@@ -17,7 +17,7 @@ function Log.log(text)
     else
         Log.text = Log.text..' '..text
     end
-    local _, wrap = love.graphics.getFont():getWrap(Log.text, ((Log.window.w - 1) * TILE_W) / FONT_SCALE)
+    local _, wrap = love.graphics.getFont():getWrap(Log.text, (Log.window.w - 1) / FONT_SCALE)
     for i = 1, #Log.lines do
         local line = ""
         if #wrap <= #Log.lines then

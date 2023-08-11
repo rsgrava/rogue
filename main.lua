@@ -20,6 +20,7 @@ function love.load()
 
     love.keyboard.pressed = {}
     love.keyboard.released = {}
+    love.keyboard.textbuf = ""
     love.mouse.wheel = ""
 
     tileScale = TILE_SCALE
@@ -35,6 +36,7 @@ function love.update(dt)
     UIManager.update(dt)
     love.keyboard.pressed = {}
     love.keyboard.released = {}
+    love.keyboard.textbuf = ""
     love.mouse.wheel = ""
 end
 
@@ -55,6 +57,10 @@ end
 
 function love.keyreleased(key)
     love.keyboard.released[key] = true
+end
+
+function love.textinput(text)
+    love.keyboard.textbuf = text
 end
 
 function love.wheelmoved(x, y)

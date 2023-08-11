@@ -7,8 +7,8 @@ function InventoryScreen:init()
     self.window = Window({
         x = FRAME_SCALE * TILE_W * 2,
         y = TILE_H * FRAME_SCALE * 2,
-        w = GAME_W / TILE_W - FRAME_SCALE * (BORDER_RIGHT + BORDER_LEFT + 2),
-        h = GAME_H / TILE_H - FRAME_SCALE * (BORDER_BOTTOM + BORDER_TOP + 2)
+        w = GAME_W - FRAME_SCALE * TILE_W * (BORDER_RIGHT + BORDER_LEFT + 2),
+        h = GAME_H - FRAME_SCALE * TILE_H * (BORDER_BOTTOM + BORDER_TOP + 2)
     })
 end
 
@@ -34,6 +34,7 @@ function InventoryScreen:draw()
     end
 
     love.graphics.setColor(COLORS.LIGHT_GRAY)
+    love.graphics.setLineWidth(2)
     -- vertical line
     love.graphics.line(
         self.window.x + self.window.w * TILE_W / 2,
@@ -54,5 +55,6 @@ function InventoryScreen:draw()
         self.window.x + self.window.w * TILE_W / 2,
         self.window.y + (self.window.h - 2 * FRAME_SCALE) * TILE_H
     )
+    love.graphics.setLineWidth(1)
     love.graphics.setColor(COLORS.WHITE)
 end

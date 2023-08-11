@@ -5,47 +5,40 @@ Overlay = {}
 
 function Overlay:draw()
     -- upper border
-    love.graphics.draw(
-        assets.graphics.GUI.GUI0,
-        WindowQuads.middle,
+    love.graphics.setColor(COLORS.DARK_PURPLE)
+    love.graphics.rectangle(
+        "fill",
         0,
         0,
-        0,
-        FRAME_SCALE * (GAME_W / (FRAME_SCALE * TILE_W) - BORDER_RIGHT),
-        FRAME_SCALE
+        FRAME_SCALE * TILE_W *(GAME_W / (FRAME_SCALE * TILE_W) - BORDER_RIGHT),
+        FRAME_SCALE * TILE_H
     )
 
     -- left border
-    love.graphics.draw(
-        assets.graphics.GUI.GUI0,
-        WindowQuads.middle,
+    love.graphics.rectangle(
+        "fill",
         0,
         TILE_H * FRAME_SCALE,
-        0,
-        FRAME_SCALE,
-        FRAME_SCALE * (GAME_H / (FRAME_SCALE * TILE_H) - BORDER_BOTTOM - BORDER_TOP)
+        FRAME_SCALE * TILE_W,
+        FRAME_SCALE * TILE_H * (GAME_H / (FRAME_SCALE * TILE_H) - BORDER_BOTTOM - BORDER_TOP)
     )
 
     -- lower border
-    love.graphics.draw(
-        assets.graphics.GUI.GUI0,
-        WindowQuads.middle,
+    love.graphics.rectangle(
+        "fill",
         0,
         TILE_H * FRAME_SCALE * (GAME_H / (FRAME_SCALE * TILE_H) - BORDER_BOTTOM),
-        0,
-        FRAME_SCALE * (GAME_W / (FRAME_SCALE * TILE_W) - BORDER_RIGHT),
-        FRAME_SCALE * 4.5
+        FRAME_SCALE * TILE_W *(GAME_W / (FRAME_SCALE * TILE_W) - BORDER_RIGHT),
+        FRAME_SCALE * TILE_H * 4.5
     )
     
     --right border
-    love.graphics.draw(
-        assets.graphics.GUI.GUI0,
-        WindowQuads.middle,
+    love.graphics.rectangle(
+        "fill",
         FRAME_SCALE * TILE_W * (GAME_W / (TILE_W * FRAME_SCALE) - BORDER_RIGHT),
         0,
-        0,
-        8 * FRAME_SCALE,
-        FRAME_SCALE * GAME_H / TILE_H
+        8 * FRAME_SCALE * TILE_W,
+        FRAME_SCALE * GAME_H
     )
 
     --frame

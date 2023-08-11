@@ -7,6 +7,21 @@ function string.startsWith(str, substr)
    return string.sub(str, 1, string.len(substr)) == substr
 end
 
+function string.split(str)
+    words = {}
+    for word in str:gmatch("%S+") do
+        table.insert(words, word)
+    end
+    return words
+end
+
+function table.cat(tbl1,tbl2)
+    for i = 1, #tbl2 do
+        tbl1[#tbl1 + 1] = tbl2[i]
+    end
+    return tbl1
+end
+
 function table.random(tbl)
     local keys = {}
     for key in pairs(tbl) do
