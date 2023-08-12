@@ -140,6 +140,44 @@ function Character:pickUpItem()
     return false
 end
 
+function Character:dropItem()
+    Game.state = "menu"
+    UIManager.push(
+        InventoryScreen({
+            label = "Drop",
+            inv = self.inv,
+            onSelect = function(slot)
+                if slot.count == 1 then
+                    Game.player.inv:remove(slot.item, 1)
+                    Game.objects:insert(slot.item, 1, Game.player.tileX, Game.player.tileY)
+                    UIManager.widgets[#UIManager.widgets]:calculatePages()
+                    if #UIManager.widgets[#UIManager.widgets].pages[1] == 0 then
+                        Game.state = "action"
+                        UIManager.pop()
+                    end
+                else
+                    UIManager.push(
+                        NumberSelect({
+                            max = slot.count,
+                            item = slot.item,
+                            onSelect = function(item, count)
+                                Game.player.inv:remove(item, count)
+                                Game.objects:insert(item, count, Game.player.tileX, Game.player.tileY)
+                                UIManager.pop()
+                                UIManager.widgets[#UIManager.widgets]:calculatePages()
+                                if #UIManager.widgets[#UIManager.widgets].pages[1] == 0 then
+                                    Game.state = "action"
+                                    UIManager.pop()
+                                end
+                            end
+                        })
+                    )
+                end
+            end 
+        })
+    )
+end
+
 function Character:attack(target)
     local dmg = self.atk
     Log.log(self.name.." attacks "..target.name.." for "..dmg.." damage!")
