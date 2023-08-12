@@ -24,6 +24,24 @@ function Character:init(defs)
     self.speed = def.speed
 
     self.inv = Inventory()
+
+    if defs.equipment then
+        self.equipment = defs.equipment
+    else
+        self.equipment = {
+            mainhand = nil,
+            offhand = nil,
+            amulet = nil,
+            ring1 = nil,
+            ring2 = nil,
+            head = nil,
+            body = nil,
+            hands = nil,
+            feet = nil,
+            ranged = nil,
+            ammo = nil,
+        }
+    end
 end
 
 function Character:draw()
@@ -176,6 +194,17 @@ function Character:dropItem()
             end 
         })
     )
+end
+
+function Character:equip(slot, item)
+    self.equipment[slot] = item
+    self.inv:remove(item, 1)
+end
+
+function Character:unequip(slot)
+    local oldEquip = self.equipment[slot]
+    self.equipment[slot] = nil
+    self.inv:insert(oldEquip, 1)
 end
 
 function Character:attack(target)

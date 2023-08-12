@@ -2,7 +2,7 @@ Class = require("libs/class")
 require("src/entities/character")
 require("src/entities/pointer")
 require("src/ui/inventory_screen")
-require("src/ui/number_select")
+require("src/ui/equip_screen")
 
 PC = Class{
     __includes = Character
@@ -42,6 +42,9 @@ function PC:takeTurn()
         UIManager.push(InventoryScreen({ label = "Inventory", inv = self.inv, onSelect = nil }))
     elseif love.keyboard.isPressed("d") then
         action = self:dropItem() and "drop" or nil
+    elseif love.keyboard.isPressed("w") then
+        Game.state = "menu"
+        UIManager.push(EquipScreen({ character = self }))
     end
 
     if action ~= nil then
