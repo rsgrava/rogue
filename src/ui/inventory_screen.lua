@@ -18,9 +18,16 @@ function InventoryScreen:init(defs)
     self.onSelect = defs.onSelect
     self.window = Window({
         x = FRAME_SCALE * TILE_W * 2,
-        y = TILE_H * FRAME_SCALE * 2,
+        y = TILE_H * FRAME_SCALE * 3,
         w = GAME_W - FRAME_SCALE * TILE_W * (BORDER_RIGHT + BORDER_LEFT + 2),
-        h = GAME_H - FRAME_SCALE * TILE_H * (BORDER_BOTTOM + BORDER_TOP + 2)
+        h = GAME_H - FRAME_SCALE * TILE_H * (BORDER_BOTTOM + BORDER_TOP + 3)
+    })
+    self.label = defs.label
+    self.labelWindow = Window({
+        x = FRAME_SCALE * TILE_W * 2,
+        y = TILE_H * FRAME_SCALE * 2,
+        w = (love.graphics.getFont():getWidth(self.label) + TILE_W) * FONT_SCALE,
+        h = FRAME_SCALE * TILE_H
     })
     self.category = "all items"
     self:calculatePages()
@@ -70,7 +77,7 @@ function InventoryScreen:update(dt)
             self:calculatePages()
         elseif self.onSelect ~= nil then
             local char = string.byte(love.keyboard.textbuf)
-            if char >= string.byte("a") and char <= string.byte("x") then
+            if char >= string.byte("a") and char <= string.byte("v") then
                 local slot = self.pages[self.page][char - string.byte("a") + 1]
                 if slot ~= nil then
                     self.onSelect(slot)
@@ -82,6 +89,16 @@ end
 
 function InventoryScreen:draw()
     self.window:draw()
+    self.labelWindow:draw()
+
+    love.graphics.print(
+        self.label,
+        self.labelWindow.x + TILE_W * FONT_SCALE / 2,
+        self.labelWindow.y + TILE_H / 2,
+        0,
+        FONT_SCALE,
+        FONT_SCALE
+    )
     
     local slotChar = "a"
     local i = 1
@@ -92,12 +109,12 @@ function InventoryScreen:draw()
         else
             itemName = string.gsub(slot.item.def.plural, "%%d", tostring(slot.count))
         end
-        slot.item:draw(self.window.x / FRAME_SCALE + self.window.w / (2 * FRAME_SCALE) * (math.floor(i / 13)),
-                  self.window.y / FRAME_SCALE + (((i - 1) % 12) + 0.25) * TILE_H)
+        slot.item:draw(self.window.x / FRAME_SCALE + self.window.w / (2 * FRAME_SCALE) * (math.floor(i / 12)),
+                  self.window.y / FRAME_SCALE + (((i - 1) % 11) + 0.5) * TILE_H)
         love.graphics.print(
             slotChar..")"..itemName,
-            self.window.x + TILE_W * FRAME_SCALE + self.window.w / 2 * (math.floor(i / 13)),
-            self.window.y + (((i - 1) % 12) + 0.5) * TILE_H * FRAME_SCALE,
+            self.window.x + TILE_W * FRAME_SCALE + self.window.w / 2 * (math.floor(i / 12)),
+            self.window.y + (((i - 1) % 11) + 0.75) * TILE_H * FRAME_SCALE,
             0,
             FONT_SCALE,
             FONT_SCALE
@@ -225,19 +242,19 @@ function InventoryScreen:calculatePages()
         "[M] Misc"
     }
 
-    local numPages = math.floor(#slots / 24) + 1
-    local numLastItems = #slots % 24
+    local numPages = math.floor(#slots / 22) + 1
+    local numLastItems = #slots % 22
     self.page = 1
     self.pages = {}
     for i = 1, numPages do
         self.pages[i] = {}
         if i == numPages then
             for j = 1, numLastItems do
-                table.insert(self.pages[i], slots[(i - 1) * 24 + j])
+                table.insert(self.pages[i], slots[(i - 1) * 22 + j])
             end
         else
-            for j = 1, 24 do
-                table.insert(self.pages[i], slots[(i - 1) * 24 + j])
+            for j = 1, 22 do
+                table.insert(self.pages[i], slots[(i - 1) * 22 + j])
             end
         end
     end

@@ -38,11 +38,12 @@ function PC:takeTurn()
         Game.lookPointer = Pointer(self.tileX, self.tileY)
     elseif love.keyboard.isPressed("i") then
         Game.state = "menu"
-        UIManager.push(InventoryScreen({ onSelect = nil }))
+        UIManager.push(InventoryScreen({ label = "Inventory", onSelect = nil }))
     elseif love.keyboard.isPressed("d") then
         Game.state = "menu"
         UIManager.push(
             InventoryScreen({
+                label = "Drop",
                 onSelect = function(slot)
                     Game.player.inv:remove(slot.item, 1)
                     Game.objects:insert(slot.item, Game.player.tileX, Game.player.tileY)
