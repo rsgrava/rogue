@@ -2,20 +2,26 @@ Class = require("libs/class")
 
 Inventory = Class{}
 
-function Inventory:init()
-    self.slots = {}
+function Inventory:init(slots)
+    if slots == nil then
+        self.slots = {}
+    else
+        self.slots = slots
+    end
 end
 
-function Inventory:insert(item)
+function Inventory:insert(item, count)
     if item.def.stackable then
         local slotId = self:hasItem(item)
         if slotId == nil then
-            table.insert(self.slots, { item = item, count = 1 })
+            table.insert(self.slots, { item = item, count = count })
         else
-            self.slots[slotId].count = self.slots[slotId].count + 1
+            self.slots[slotId].count = self.slots[slotId].count + count
         end
     else
-        table.insert(self.slots, { item = item, count = 1 })
+        for i = 1, count do
+            table.insert(self.slots, { item = item, count = 1 })
+        end
     end
 end
 

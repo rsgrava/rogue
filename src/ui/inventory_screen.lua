@@ -16,6 +16,7 @@ InventoryScreen = Class{
 
 function InventoryScreen:init(defs)
     self.onSelect = defs.onSelect
+    self.inv = defs.inv
     self.window = Window({
         x = FRAME_SCALE * TILE_W * 2,
         y = TILE_H * FRAME_SCALE * 3,
@@ -205,31 +206,31 @@ end
 function InventoryScreen:calculatePages()
     local slots
     if self.category == "all items" then
-        slots = Game.player.inv.slots
+        slots = self.inv.slots
     elseif self.category == "equipment" then
-        local amulets = Game.player.inv:getCategory("amulets")
-        local weapons = Game.player.inv:getCategory("weapons")
-        local armor = Game.player.inv:getCategory("armor")
-        local rings = Game.player.inv:getCategory("rings")
+        local amulets = self.inv:getCategory("amulets")
+        local weapons = self.inv:getCategory("weapons")
+        local armor = self.inv:getCategory("armor")
+        local rings = self.inv:getCategory("rings")
         slots = table.cat(amulets, weapons)
         slots = table.cat(slots, armor)
         slots = table.cat(slots, rings)
     elseif self.category == "edibles" then
-        slots = Game.player.inv:getCategory("edibles")
+        slots = self.inv:getCategory("edibles")
     elseif self.category == "drinkables" then
-        slots = Game.player.inv:getCategory("drinkables")
+        slots = self.inv:getCategory("drinkables")
     elseif self.category == "readables" then
-        local books = Game.player.inv:getCategory("books")
-        local spellbooks = Game.player.inv:getCategory("spellbooks")
-        local scrolls = Game.player.inv:getCategory("scrolls")
+        local books = self.inv:getCategory("books")
+        local spellbooks = self.inv:getCategory("spellbooks")
+        local scrolls = self.inv:getCategory("scrolls")
         slots = table.cat(books, spellbooks)
         slots = table.cat(slots, scrolls)
     elseif self.category == "wands" then
-        slots = Game.player.inv:getCategory("wands")
+        slots = self.inv:getCategory("wands")
     elseif self.category == "tools" then
-        slots = Game.player.inv:getCategory("tools")
+        slots = self.inv:getCategory("tools")
     elseif self.category == "misc" then
-        slots = Game.player.inv:getCategory("misc")
+        slots = self.inv:getCategory("misc")
     end
 
     local numPages = math.floor(#slots / 22) + 1

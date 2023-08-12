@@ -93,8 +93,48 @@ end
 function Character:pickUpItem()
     local items = Game.objects:getAt(self.tileX, self.tileY)
     if items then
-        self.inv:insert(items[1])
-        Game.objects:remove(items[1])
+        if #items == 1 and items[1].count == 1 then
+            self.inv:insert(items[1].item, 1)
+            Game.objects:remove(items[1].item, 1)
+        else
+            Game.state = "menu"
+            UIManager.push(
+                InventoryScreen({
+                    label = "Pick Up",
+                    inv = Inventory(
+                        items
+                    ),
+                    onSelect = function(slot)
+                        if slot.count == 1 then
+                            self.inv:insert(slot.item, 1)
+                            Game.objects:remove(slot.item, 1)
+                            UIManager.widgets[#UIManager.widgets]:calculatePages()
+                            if #UIManager.widgets[#UIManager.widgets].pages[1] == 0 then
+                                Game.state = "action"
+                                UIManager.pop()
+                            end
+                        else
+                            UIManager.push(
+                                NumberSelect({
+                                    max = slot.count,
+                                    item = slot.item,
+                                    onSelect = function(item, count)
+                                        Game.player.inv:insert(item, count)
+                                        Game.objects:remove(item, count)
+                                        UIManager.pop()
+                                        UIManager.widgets[#UIManager.widgets]:calculatePages()
+                                        if #UIManager.widgets[#UIManager.widgets].pages[1] == 0 then
+                                            Game.state = "action"
+                                            UIManager.pop()
+                                        end
+                                    end
+                                })
+                            )
+                        end
+                    end
+                })
+            )
+        end
         return true
     end
     return false

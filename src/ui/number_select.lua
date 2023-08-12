@@ -5,6 +5,7 @@ NumberSelect = Class{}
 function NumberSelect:init(defs)
     self.max = defs.max
     self.item = defs.item
+    self.onSelect = defs.onSelect
     self.count = 1
     local width = FRAME_SCALE * TILE_W * 8
     local height = FRAME_SCALE * TILE_H * 5
@@ -26,10 +27,7 @@ function NumberSelect:update(dt)
     if love.keyboard.isPressed("escape") then
         UIManager.pop()
     elseif love.keyboard.isPressed("return") then
-        Game.player.inv:remove(self.item, self.count)
-        Game.objects:insert(self.item, self.count, Game.player.tileX, Game.player.tileY)
-        UIManager.pop()
-        UIManager.widgets[#UIManager.widgets]:calculatePages()
+        self.onSelect(self.item, self.count)
     elseif love.keyboard.isPressed("left") or love.keyboard.isPressed("kp4") then
         self.count = math.max(self.count - 1, 1)
     elseif love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
