@@ -40,7 +40,7 @@ function ObjectManager:remove(item)
             if item == object then
                 table.remove(objectGroup, objectId)
                 if #objectGroup == 0 then
-                    table.remove(self.objects, objectGroupId)
+                    self.objects[objectGroupId] = nil
                 end
                 break
             end
