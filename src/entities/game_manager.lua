@@ -73,7 +73,6 @@ function Game.update(dt)
         if love.keyboard.isPressed("l") or love.keyboard.isPressed("escape") then
             Game.state = "action"
         end
-    elseif Game.state == "debug" then
     end
 end
 

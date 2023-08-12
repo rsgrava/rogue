@@ -14,7 +14,8 @@ InventoryScreen = Class{
     }
 }
 
-function InventoryScreen:init()
+function InventoryScreen:init(defs)
+    self.onSelect = defs.onSelect
     self.window = Window({
         x = FRAME_SCALE * TILE_W * 2,
         y = TILE_H * FRAME_SCALE * 2,
@@ -23,9 +24,15 @@ function InventoryScreen:init()
     })
     self.category = "all items"
     self:calculatePages()
+    self.firstUpdate = true
 end
 
 function InventoryScreen:update(dt)
+    if self.firstUpdate then
+        self.firstUpdate = false
+        return
+    end
+
     if love.keyboard.isPressed("escape") then
         Game.state = "action"
         UIManager.pop()
@@ -36,30 +43,40 @@ function InventoryScreen:update(dt)
         self.page = math.min(self.page + 1, #self.pages)
     elseif love.keyboard.isDown("left") or love.keyboard.isPressed("kp4") then
         self.page = math.max(self.page - 1, 1)
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("a") then
-        self.category = "all items"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("w") then
-        self.category = "equipment"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("e") then
-        self.category = "edibles"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("d") then
-        self.category = "drinkables"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("r") then
-        self.category = "readables"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("z") then
-        self.category = "wands"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("t") then
-        self.category = "tools"
-        self:calculatePages()
-    elseif love.keyboard.isDown("lshift") and love.keyboard.isPressed("m") then
-        self.category = "misc"
-        self:calculatePages()
+    elseif love.keyboard.textbuf ~= "" then
+        if love.keyboard.textbuf == ("A") then
+            self.category = "all items"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("W") then
+            self.category = "equipment"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("E") then
+            self.category = "edibles"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("D") then
+            self.category = "drinkables"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("R") then
+            self.category = "readables"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("Z") then
+            self.category = "wands"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("T") then
+            self.category = "tools"
+            self:calculatePages()
+        elseif love.keyboard.textbuf == ("M") then
+            self.category = "misc"
+            self:calculatePages()
+        elseif self.onSelect ~= nil then
+            local char = string.byte(love.keyboard.textbuf)
+            if char >= string.byte("a") and char <= string.byte("x") then
+                local slot = self.pages[self.page][char - string.byte("a") + 1]
+                if slot ~= nil then
+                    self.onSelect(slot)
+                end
+            end
+        end
     end
 end
 
