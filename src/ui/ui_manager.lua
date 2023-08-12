@@ -1,10 +1,9 @@
 UIManager = { widgets = {} }
 
 function UIManager.update(dt)
-    for widgetId, widget in pairs(UIManager.widgets) do
-        if widget.update then
-            widget:update(dt)
-        end
+    local widget = UIManager.widgets[#UIManager.widgets]
+    if widget.update then
+        widget:update(dt)
     end
 end
 

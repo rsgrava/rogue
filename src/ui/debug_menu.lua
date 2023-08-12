@@ -57,16 +57,14 @@ function spawnItem(args)
     if itemDef then
         local item = Item(args[3])
         if args[4] then
-            local itemNum = tonumber(args[4])
-            if itemNum then
-                for i = 1, itemNum do
-                    Game.objects:insert(item, Game.player.tileX, Game.player.tileY)
-                end
+            local count = tonumber(args[4])
+            if count then
+                Game.objects:insert(item, count, Game.player.tileX, Game.player.tileY)
             else
                 Log.log("Invalid number '"..args[4].."'")
             end
         else
-            Game.objects:insert(item, Game.player.tileX, Game.player.tileY)
+            Game.objects:insert(item, 1, Game.player.tileX, Game.player.tileY)
         end
     else
         Log.log("Unknown item '"..args[3].."'")

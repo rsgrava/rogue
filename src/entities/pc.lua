@@ -2,6 +2,7 @@ Class = require("libs/class")
 require("src/entities/character")
 require("src/entities/pointer")
 require("src/ui/inventory_screen")
+require("src/ui/number_select")
 
 PC = Class{
     __includes = Character
@@ -45,10 +46,18 @@ function PC:takeTurn()
             InventoryScreen({
                 label = "Drop",
                 onSelect = function(slot)
-                    Game.player.inv:remove(slot.item, 1)
-                    Game.objects:insert(slot.item, Game.player.tileX, Game.player.tileY)
-                    Game.state = "action"
-                    UIManager:pop()
+                    if slot.count == 1 then
+                        Game.player.inv:remove(slot.item, 1)
+                        Game.objects:insert(slot.item, 1, Game.player.tileX, Game.player.tileY)
+                        UIManager.widgets[#UIManager.widgets]:calculatePages()
+                    else
+                        UIManager.push(
+                            NumberSelect({
+                                max = slot.count,
+                                item = slot.item
+                            })
+                        )
+                    end
                 end 
             })
         )

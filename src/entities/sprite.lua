@@ -7,10 +7,17 @@ function Sprite:init(defs)
         TILE_W, TILE_H, defs.texture1)
 end
 
-function Sprite:draw(x, y)
+function Sprite:draw(x, y, sx, sy)
     local texture = self.texture1
     if Game.animation.frame == 2 and self.texture2 ~= nil then
         texture = self.texture2
+    end
+
+    if sx == nil then
+        sx = 1
+    end
+    if sy == nil then
+        sy = 1
     end
 
     love.graphics.draw(
@@ -19,7 +26,7 @@ function Sprite:draw(x, y)
         x * tileScale,
         y * tileScale,
         0,
-        tileScale,
-        tileScale
+        tileScale * sx,
+        tileScale * sy
     )
 end

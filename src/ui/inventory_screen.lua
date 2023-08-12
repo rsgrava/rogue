@@ -30,6 +30,7 @@ function InventoryScreen:init(defs)
         h = FRAME_SCALE * TILE_H
     })
     self.category = "all items"
+    self.page = 1
     self:calculatePages()
     self.firstUpdate = true
 end
@@ -48,7 +49,7 @@ function InventoryScreen:update(dt)
 
     if love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
         self.page = math.min(self.page + 1, #self.pages)
-    elseif love.keyboard.isDown("left") or love.keyboard.isPressed("kp4") then
+    elseif love.keyboard.isPressed("left") or love.keyboard.isPressed("kp4") then
         self.page = math.max(self.page - 1, 1)
     elseif love.keyboard.textbuf ~= "" then
         if love.keyboard.textbuf == ("A") then
@@ -102,7 +103,7 @@ function InventoryScreen:draw()
     
     local slotChar = "a"
     local i = 1
-    for slotId, slot in pairs(self.pages[self.page]) do
+    for slotId, slot in ipairs(self.pages[self.page]) do
         local itemName
         if slot.count == 1 then
             itemName = slot.item.def.singular
@@ -231,24 +232,20 @@ function InventoryScreen:calculatePages()
         slots = Game.player.inv:getCategory("misc")
     end
 
-    categories = {
-        "[A] All Items",
-        "[W] Equipment",
-        "[E] Edibles",
-        "[D] Drinkables",
-        "[R] Readables",
-        "[Z] Wands",
-        "[T] Tools",
-        "[M] Misc"
-    }
-
     local numPages = math.floor(#slots / 22) + 1
     local numLastItems = #slots % 22
-    self.page = 1
-    self.pages = {}
+    if numPages > 1 and numLastItems == 0 then
+        numPages = numPages - 1
+    end
+
+    if self.page > numPages then
+        self.page = numPages
+    end
+
+    self.pages= {}
     for i = 1, numPages do
         self.pages[i] = {}
-        if i == numPages then
+        if i == numPages and numPages ~= self.page then
             for j = 1, numLastItems do
                 table.insert(self.pages[i], slots[(i - 1) * 22 + j])
             end

@@ -12,6 +12,6 @@ function Item:init(id)
     })
 end
 
-function Item:draw(x, y)
-    self.sprite:draw(x, y)
+function Item:draw(x, y, sx, sy)
+    self.sprite:draw(x, y, sx, sy)
 end

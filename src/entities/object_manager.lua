@@ -18,19 +18,22 @@ function ObjectManager:draw()
     end
 end
 
-function ObjectManager:insert(item, x, y)
+function ObjectManager:insert(item, count, x, y)
     local hash = cantor(x, y)
     local objList = self.objects[hash]
     if objList == nil then
         objList = {}
         self.objects[hash] = objList
     end
-    table.insert(objList, item)
+    -- TODO: fix this ugly hack
+    for i = 1, count do
+        table.insert(objList, item)
+    end
 end
 
 function ObjectManager:insertList(list)
     for objectId, object in pairs(list) do
-        self:insert(object.object, object.x, object.y)
+        self:insert(object.object, 1, object.x, object.y)
     end
 end
 
