@@ -1,18 +1,26 @@
 Class = require("libs/class")
 require("src/utils")
+require("src/entities/sprite")
 
 ObjectManager = Class{}
 
 function ObjectManager:init()
     self.objects = {}
+    self.bagSprite = Sprite({
+        texture1 = assets.graphics.Items.Chest0,
+        quadX = 0,
+        quadY = 2,
+    })
 end
 
 function ObjectManager:draw()
     for objectGroupId, objectGroup in pairs(self.objects) do
         local x, y = inverseCantor(objectGroupId)
-        for objectId, object in pairs(objectGroup) do
-            if Game.map:isVisible(x, y) then
-                object:draw(x * TILE_W, y * TILE_H)
+        if Game.map:isVisible(x, y) then
+            if #objectGroup == 1 then
+                objectGroup[1]:draw(x * TILE_W, y * TILE_H)
+            else
+                self.bagSprite:draw(x * TILE_W, y * TILE_H)
             end
         end
     end
