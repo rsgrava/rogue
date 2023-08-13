@@ -1,4 +1,5 @@
 Class = require("libs/class")
+require("src/constants")
 
 SelectEquipScreen = Class{}
 
@@ -36,15 +37,40 @@ function SelectEquipScreen:init(defs)
     else
         self.items = inv:getCategory(defs.actualSlot)
     end
+
+    local numPages = math.floor(#self.items / 12) + 1
+    local numLastItems = #self.items % 12
+    if numPages > 1 and numLastItems == 0 then
+        numPages = numPages - 1
+    end
+
+    self.page = 1
+    self.pages= {}
+    for i = 1, numPages do
+        self.pages[i] = {}
+        if i == numPages and numPages ~= self.page then
+            for j = 1, numLastItems do
+                table.insert(self.pages[i], self.items[(i - 1) * 12 + j])
+            end
+        else
+            for j = 1, 12 do
+                table.insert(self.pages[i], self.items[(i - 1) * 12 + j])
+            end
+        end
+    end
 end
 
 function SelectEquipScreen:update(dt)
     if love.keyboard.isPressed("escape") then
         UIManager.pop()
+    elseif love.keyboard.isPressed("right") or love.keyboard.isPressed("kp6") then
+        self.page = math.min(self.page + 1, #self.pages)
+    elseif love.keyboard.isPressed("left") or love.keyboard.isPressed("kp4") then
+        self.page = math.max(self.page - 1, 1)
     elseif love.keyboard.textbuf ~= "" then
         local char = string.byte(love.keyboard.textbuf)
-        if char >= string.byte("a") and char <= string.byte("v") then
-            local slot = self.items[char - string.byte("a") + 1]
+        if char >= string.byte("a") and char <= string.byte("l") then
+            local slot = self.pages[self.page][char - string.byte("a") + 1]
             if slot ~= nil then
                 self.character:equip(self.actualSlot, slot.item)
                 UIManager:pop()
@@ -67,9 +93,9 @@ function SelectEquipScreen:draw()
     )
 
     local i = 0
-    for slotId, slot in pairs(self.items) do
+    for slotId, slot in pairs(self.pages[self.page]) do
         slot.item:draw(
-            self.window.x / FRAME_SCALE + self.window.w / (2 * FRAME_SCALE) * (math.floor(i / 12)),
+            self.window.x / FRAME_SCALE,
             self.window.y / FRAME_SCALE + (i + 0.5) * TILE_H
         )
         local char = string.char(string.byte("a") + i)
@@ -83,4 +109,27 @@ function SelectEquipScreen:draw()
         )
         i = i + 1
     end
+
+    love.graphics.setColor(COLORS.LIGHT_GRAY)
+    love.graphics.setLineWidth(2)
+    love.graphics.line(
+        self.window.x,
+        self.window.y + 12.75 * TILE_H * FRAME_SCALE,
+        self.window.x + self.window.w,
+        self.window.y + 12.75 * TILE_H * FRAME_SCALE
+    )
+    love.graphics.setLineWidth(1)
+    love.graphics.setColor(COLORS.WHITE)
+
+    local pageText = "Page "..self.page.."/"..#self.pages
+    local font = love.graphics.getFont()
+    local textWidth = font:getWidth(pageText) * FONT_SCALE
+    love.graphics.print(
+        pageText,
+        self.window.x + (self.window.w - textWidth) / 2,
+        self.window.y + 12.75 * TILE_H * FRAME_SCALE + font:getHeight() * FONT_SCALE / 2,
+        0,
+        FONT_SCALE,
+        FONT_SCALE
+    )
 end

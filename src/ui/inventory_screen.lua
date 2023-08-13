@@ -243,7 +243,7 @@ function InventoryScreen:calculatePages()
         self.page = numPages
     end
 
-    self.pages= {}
+    self.pages = {}
     for i = 1, numPages do
         self.pages[i] = {}
         if i == numPages and numPages ~= self.page then
